@@ -11,13 +11,9 @@ Tools for manipulating systems of linear (in)equations.
 This is a low-level package, to be used by several packages in the
 `validate`-suite of packages.
 
-### Successive Projection Algorithm
+#### Successive Projection Algorithm
 
-A C/R implementation of the Successive Projection Algorithm projects a vector
-not satisfying a set of linear (in)equality restrictions onto the convex
-polytope described by the restrictions.
-
-The SPA algorithm is used to minimally adjust a vector, in the (weighted) Euclidean
+The SPA is used to minimally adjust a vector, in the (weighted) Euclidean
 sense, to satisfy a set of linear (in)equality constraints.
 
 This package is under development and not on CRAN yet. You can install the
