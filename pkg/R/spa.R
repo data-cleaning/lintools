@@ -1,6 +1,11 @@
 #' Tools for manipulating linear systems of (in)equations
 #'
-#' Make vectors satisfy linear (in)equality constraints.
+#' \itemize{
+#' \item{Rewrite in reduced row echelon form}
+#' \item{Eliminate variables through Gaussian or Fourier-Motzkin elimination}
+#' \item{Simplify a system by substituting values}
+#' \item{Project a vector onto the convec polytope described by a set of linear (in)equations}
+#' }
 #'
 #'
 #' @name lintools
@@ -11,9 +16,9 @@
 
 
 
-#' Successive projections with densly defined restrictions
+#' Project a vector on the border of the region defined by a set of linear (in)equality restrictions.
 #'
-#' Compute a vector, closest to \eqn{x} satisfying a set of linear (in)equality restrictions.
+#' Compute a vector, closest to \code{x} satisfying a set of linear (in)equality restrictions.
 #'
 #' @param x [\code{numeric}] Vector that needs to satisfy the linear restrictions.
 #' @param A [\code{matrix}] Coefficient matrix for linear restrictions.
