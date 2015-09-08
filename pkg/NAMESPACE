@@ -2,6 +2,7 @@
 
 S3method(print,sparseConstraints)
 S3method(sparseConstraints,data.frame)
+export(echelon)
 export(project)
 export(sparseConstraints)
 export(sparse_project)
