@@ -75,7 +75,7 @@ text(-0.15,-0.3,labels="y = x")
 text(1.05,-0.3,labels="y = 1 - x")
 ```
 
-To find a solution, the successive projection algorithm (hence: `supral`)
+To find a solution, the successive projection algorithm 
 projects the start vector iterativelty on the borders of the convex region
 that is defined by the linear inequalities. In the figure this is indicated by
 the arrows. The solution is a point on or numerically very near the border of
@@ -86,7 +86,7 @@ orthogonal, as shown in the figure. If the weights differ, the direction of
 projections will be scaled accordingly.
 
 ### Optimization in R
-In the `supral` package, all inequalities must be written in the $\leq$-form. So
+In the `lintools` package, all inequalities must be written in the $\leq$-form. So
 first note that the above constraints can be written as
 $$
 \left(\begin{array}{cc}
@@ -103,9 +103,9 @@ x\\y
 \end{array}\right)
 $$
 
-So we formulate the problem with the `supral` package as follows.
+So we formulate the problem with the `lintools` package as follows.
 ```{r}
-library(supral)
+library(lintools)
 x <- c(0.8,-0.2)
 A <- matrix(c(1,-1,-1,-1), byrow=TRUE, nrow=2)
 b <- c(0,-1)
@@ -131,7 +131,7 @@ For problems where a great many coeffiecients need to be optimized under a large
 number of restrictions, it is possible to forumate the restrictions in sparse
 format.
 
-In the `supral` package, the row-column-coefficient format is used. That is, in
+In the `lintools` package, the row-column-coefficient format is used. That is, in
 stead of defining the full matrix $\boldsymbol{A}$ as in the previous example,
 we set up a `data.frame` with columns
 
@@ -209,7 +209,7 @@ Users of the `rspa` package will no doubt recognize the algorithm and the
 `sparseConstraints` object. We chose to separate the functionality from `rspa`
 to be able to reuse the successive projection algorithm for multiple purposes,
 without depending on the `editrules` package. In the future, `rspa` will depend
-on `supral` with guaranteed backward compatibility.
+on `lintools` with guaranteed backward compatibility.
 
 
 

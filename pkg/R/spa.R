@@ -1,10 +1,10 @@
-#' Successive Projection Algorithm
+#' Tools for manipulating linear systems of (in)equations
 #'
 #' Make vectors satisfy linear (in)equality constraints.
 #'
 #'
-#' @name supral-package
-#' @useDynLib supral
+#' @name lintools
+#' @useDynLib lintools
 #' @docType package
 #' 
 {}
