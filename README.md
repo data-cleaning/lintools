@@ -25,10 +25,13 @@ Simplify systems of (in)equations when one or more of the values is known.
 Rewrite systems by eliminating variables. Gaussian elimination for
 equalities or Fourier-Motzkin elimination for inequalities.
 
-#### Successive Projection Algorithm
+#### Project on convex polytope
 
-The SPA is used to minimally adjust a vector, in the (weighted) Euclidean
-sense, to satisfy a set of linear (in)equality constraints.
+Given a vector not satisfying a set of (in)equations, project it onto
+the convex polytope described by the restrictions.
+
+
+### Installation
 
 This package is under development and not on CRAN yet. You can install the
 latest beta version from my
@@ -39,9 +42,4 @@ drat::addRepo("data-cleaning")
 install.packages("lintools")
 ```
 
-To get started
-```
-library(lintools)
-vignette("intro",package="lintools")
-```
 
