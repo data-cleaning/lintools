@@ -31,6 +31,9 @@ check_sys <- function(A, b, neq, x ,tol){
   if (!missing(x) && !all_finite(x)){
     stop("Non-finite values detected in 'x'")
   }
+  if (!missing(neq) && length(neq) > length(b)){
+    stop("Number of equations 'neq' specified larger than length of 'b'")
+  }
   if (!missing(tol) && !all_finite(tol)){
     stop("Non-finite value specified for 'tol'")
   }

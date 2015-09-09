@@ -17,5 +17,10 @@ test_that("value substitution",{
     subst_value(A,b,c(1,3),c(0,1))
     ,list(A=A[,2,drop=FALSE],b=b-9:12)
   )
-
+  colnames(A) <- paste0("x",seq_len(ncol(A)))
+  expect_equivalent(
+    subst_value(A,b,"x1",0)
+    , list(A=A[,2:3],b=b)
+  )
+  
 })
