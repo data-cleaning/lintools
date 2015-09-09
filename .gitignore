@@ -8,6 +8,9 @@
 # RStudio files
 .Rproj.user/
 
+# copied/generated
+pkg/DESCRIPTION
+
 # produced vignettes and docs
 vignettes/*.html
 vignettes/*.pdf

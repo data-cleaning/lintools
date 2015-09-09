@@ -5,7 +5,8 @@ Title: Manipulation of Linear Systems of (In)Equalities
 LazyData: no
 Type: Package
 LazyLoad: yes
-Author: Mark van der Loo, Edwin de Jonge
+Author: c(person("Mark", "van der Loo",role=c("cre","aut"),email="mark.vanderloo@gmail.com") 
+     , person("Edwin", "de Jonge", role="aut"))
 Description: Several tools for manipulating linear systems of equalities and/or
     inequalities. Includes reduction to reduced row echelon form, value substitution
     variable elimination (Gaussian elimination, Fourier-Motzkin elimination) and
