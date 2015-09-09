@@ -34,7 +34,7 @@ echelon <- function(A, b, neq=nrow(A), tol=1e-8){
     Ab <- Ab[seq_len(neq),,drop=FALSE]
     
     k <- min(ncol(Ab),nrow(Ab))
-    I <- 1:nrow(Ab)
+    I <- seq_len(nrow(Ab))
     for ( i in 1:k ){
         I1 <- which(I >= i)
         ip <- I1[which.max(abs(Ab[I1,i]))]
