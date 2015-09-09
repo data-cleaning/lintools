@@ -12,6 +12,7 @@ This is a low-level package, to be used by several packages in the
 `validate`-suite of packages. It is not finished yet, but it will at
 least offer the following functionality.
 
+
 #### Blocking
 
 Separate matrices into independent blocks.
@@ -29,7 +30,6 @@ Simplify systems of (in)equations when one or more of the values is known.
 Rewrite systems by eliminating variables. Gaussian elimination for
 equalities or Fourier-Motzkin elimination for inequalities.
 
-
 #### Feasibility checks
 
 Check whether a system of linear (in)equations has any solution.
@@ -38,6 +38,11 @@ Check whether a system of linear (in)equations has any solution.
 
 Given a vector not satisfying a set of (in)equations, project it onto
 the convex polytope described by the restrictions.
+
+#### Extract partial solutions
+
+Extract values that are uniquely defined (implied) by a set of (in)equations.
+
 
 
 ### Installation

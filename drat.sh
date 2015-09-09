@@ -26,7 +26,7 @@ if (!file.exists(pkg)){
   stop(sprintf("%s not found",pkg))
 }
 
-drat::insertPackage(pkg, repodir=opt$dratrepo, commit=opt$commit)
+drat::insertPackage(pkg, repodir=opt$dratrepo, commit=opt$commit, pullfirst=TRUE)
 
 cat(sprintf("Inserted %s into %s %s\n"
   , pkg
