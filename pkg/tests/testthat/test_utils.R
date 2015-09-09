@@ -19,6 +19,7 @@ test_that("all_finite works correctly",{
 test_that("dimension checks",{
   expect_error(check_sys(A=matrix(0),b=c(0,0)))
   expect_error(check_sys(A=matrix(0),b=0,neq=2))
+  expect_error(check_sys(A=matrix(0,0,nrow=2),b=0,neq=2))
   expect_error(check_sys(A=matrix(0),b=0,x=c(0,0)))
   expect_error(check_sys(A=matrix("a"),b=0))
   expect_error(check_sys(A=matrix(0),b="a"))

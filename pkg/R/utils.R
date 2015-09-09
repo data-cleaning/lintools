@@ -19,6 +19,9 @@ check_sys <- function(A, b, neq, x ,tol){
   if ( !is.matrix(A)){
     stop("'A' is not of class 'matrix'")
   }
+  if (!missing(tol) && !all_finite(tol)){
+    stop("Non-finite value specified for 'tol'")
+  }
   if (!missing(tol) && tol < 0){
     stop("Negative value for 'tol' specified")
   }
@@ -31,12 +34,6 @@ check_sys <- function(A, b, neq, x ,tol){
   if (!missing(x) && !all_finite(x)){
     stop("Non-finite values detected in 'x'")
   }
-  if (!missing(neq) && length(neq) > length(b)){
-    stop("Number of equations 'neq' specified larger than length of 'b'")
-  }
-  if (!missing(tol) && !all_finite(tol)){
-    stop("Non-finite value specified for 'tol'")
-  }
   if (nrow(A) != length(b)){
     stop("Number of rows of 'A' not equal to length of 'b'")
   }
@@ -45,9 +42,6 @@ check_sys <- function(A, b, neq, x ,tol){
   }
   if (!missing(neq) && neq > nrow(A)){
     stop("number of equations 'neq' larger than number of rows in matrix 'A'")
-  }
-  if (!missing(neq) && neq > length(b)){
-    stop("number of equations 'neq' larger than length of 'b'")
   }
   
 }
