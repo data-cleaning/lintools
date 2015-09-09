@@ -19,6 +19,24 @@ test_that("Gaussian elimination",{
   expect_equal(L$h,0)
 })
 
+test_that("Eliminate named variable",{
+  A <- matrix(c(
+     1,1,-1
+    ,0,1,-1),byrow=TRUE,nrow=2
+  )
+  colnames(A) <- paste0("x",1:3)
+  b <- c(1,0)
+  neq=2
+  
+  L <- eliminate(A=A,b=b,neq=neq,variable='x1')
+  expect_equivalent(L$A,matrix(c(0,1,-1)))
+  expect_equivalent(L$b,0)
+  expect_equal(L$neq,2)
+  expect_equal(L$H,NULL)
+  expect_equal(L$h,0)
+})
+
+
 
 test_that("Fourier-Motzkin elimination",{
   
@@ -56,34 +74,32 @@ test_that("Fourier-Motzkin elimination",{
 })
 
 
+test_that("elimination with equality and inequalities",{
+  
+  A <- matrix(c(
+     1,   1,  -1,
+    -1,   0,   0,
+     0,  -1,   0,
+     0,   0,  -1),nrow=4,byrow=TRUE)
+  
+  b <- rep(0,4)
+  L <- eliminate(A,b,neq=1,variable=1)
+  expect_equivalent(L$A,matrix(c(0,1,-1,0,-1,0,0,0,-1),nrow=3,byrow=TRUE))
+  expect_equivalent(L$b,rep(0,3))
+  expect_equal(L$neq,0)
+  expect_equivalent(L$H,
+    matrix(c(
+       TRUE,  TRUE, FALSE, FALSE,
+      FALSE, FALSE,  TRUE, FALSE,
+      FALSE, FALSE, FALSE,  TRUE
+    ),nrow=3,byrow=TRUE)
+  )
+  expect_equal(L$h,1)
+  
+})
 
-#  
-#   P <- editrules::editmatrix(c(
-#     "4*x1 - 5*x2 - 3*x3 + z <= 0",
-#     "-x1 + x2 -x3 <= 2",
-#     "x1 + x2 + 2*x3 <= 3",
-#     "-x1 <= 0",
-#     "-x2 <= 0",
-#     "-x3 <= 0"))
-#   P1 <- editrules::eliminate(P, "x1", fancynames=TRUE)
-#   matrix(c(
-#     TRUE,  TRUE, FALSE, FALSE, FALSE, FALSE,
-#     TRUE, FALSE, FALSE,  TRUE, FALSE, FALSE,
-#     FALSE,  TRUE,  TRUE, FALSE, FALSE, FALSE,
-#     FALSE, FALSE,  TRUE,  TRUE, FALSE, FALSE,
-#     FALSE, FALSE, FALSE, FALSE,  TRUE, FALSE,
-#     FALSE, FALSE, FALSE, FALSE, FALSE,  TRUE), byrow=TRUE,nrow=6)
-#   op <- c("<=", "<=", "<=", "<=", "<=", "<=")
-#   expect_true(all( Ab == getAb(P1) ))
-#   expect_true(all( H  == getH(P1)  ))
-#   expect_true(all( op == getOps(P1)))
-#   expect_true( geth(P1) == 1 )
-# })
-# 
-# 
-# 
-# e <- editrules::editmatrix(expression(x+y==1-z,y==z))
-# editrules:::getH(editrules::eliminate(e,'x'))
-# 
-# e1 <- editrules::editmatrix(expression(x + y > z, x + z > w))
-# editrules:::getH(editrules::eliminate(e1,'x'))
+
+
+
+
+
