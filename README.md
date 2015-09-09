@@ -12,6 +12,10 @@ This is a low-level package, to be used by several packages in the
 `validate`-suite of packages. It is not finished yet, but it will at
 least offer the following functionality.
 
+#### Blocking
+
+Separate matrices into independent blocks.
+
 #### Reduced row echelon
 
 Bring linear systems in [reduced row echelon](https://en.wikipedia.org/wiki/Row_echelon_form) form.
@@ -24,6 +28,11 @@ Simplify systems of (in)equations when one or more of the values is known.
 
 Rewrite systems by eliminating variables. Gaussian elimination for
 equalities or Fourier-Motzkin elimination for inequalities.
+
+
+#### Feasibility checks
+
+Check whether a system of linear (in)equations has any solution.
 
 #### Project on convex polytope
 
