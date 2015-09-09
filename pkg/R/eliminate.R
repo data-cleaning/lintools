@@ -21,9 +21,10 @@
 #' @param neq [\code{numeric}] The first \code{neq} rows in \code{A} and
 #'   \code{b} are treated as linear equalities. The others as Linear
 #'   inequalities of the form \eqn{Ax<=b}.
-#' @param variables \code{[numeric|logical|character]} Index in columns of \code{A}, representing the variables to eliminate.
+#' @param variable \code{[numeric|logical|character]} Index in columns of \code{A}, representing the variable to eliminate.
 #' @param H \code{[numeric]} (optional) Matrix indicating how linear inequalities have been derived. 
-#' @param h \code{[numeric]} (optional) number indicating how many variables have been eliminated from the original system.
+#' @param h \code{[numeric]} (optional) number indicating how many variables have been eliminated from the original system
+#' using Fourier-Motzkin elimination.
 #' 
 #'   
 #' @export
@@ -46,29 +47,20 @@
 #' H.P. Williams (1986) Fourier's method of linear programming and its dual,
 #' The American Mathematical Monthly 93, 681-695
 #' @export
-eliminate <- function(A, b, neq , variables, H=NULL, h=NULL){
+eliminate <- function(A, b, neq , variable, H=NULL, h=0){
 
     Ab <- cbind(A,b)
-    if (is.character(variables)){
-      var <- match(variables, colnames(A))[1]
-      variables <- variables[-1]
+    if (is.character(variable)){
+      var <- match(variable, colnames(A))[1]
     } else {
-      var <- variables[1]
-      variables <- variables[-1]
+      var <- variable
     }
     
-    
-    if ( is.null(H) ){
-        h <- 0
-        H <- matrix(FALSE,nrow=nrow(A),ncol=nrow(A))
-        diag(H) <- TRUE 
-        colnames(A) <- rownames(A)
-    }
     
     
     ops <- rep("<=",nrow(A))
     ops[seq_len(neq)] <- "=="
-    
+   
     coefs <- Ab[,var]
     I <- coefs != 0
     
@@ -85,12 +77,12 @@ eliminate <- function(A, b, neq , variables, H=NULL, h=NULL){
     if ( (length(upper) > 0 && length(lower) > 0) ||
          (length(eq) >= 1 && (length(upper) > 0 || length(lower) > 0)) ||
          (length(eq) >= 2) ){
-       n <- n+1
+       h <- h+1
     } else {
       # return rows and columns where 'var' does not occur
       ii <- A[,var] == 0
       return(list(
-        A = Ab[ii,-var,drop=FALSE]
+        A = Ab[ii,-ncol(Ab), drop=FALSE]
         , b = b[ii]
         , neq = sum(ii<=neq)
         , H = H
@@ -98,6 +90,12 @@ eliminate <- function(A, b, neq , variables, H=NULL, h=NULL){
       ))
     } 
 
+    if ( is.null(H) ){
+        H <- matrix(FALSE,nrow=nrow(A),ncol=nrow(A))
+        diag(H) <- TRUE 
+        colnames(A) <- rownames(A)
+    }
+    
 
     #normalize matrix, every row has coefficient 1 or -1 for var
     Ab[I,] <- Ab[I,] / coefs[I]
@@ -126,17 +124,17 @@ eliminate <- function(A, b, neq , variables, H=NULL, h=NULL){
     } 
     oe <- rep("==",nrow(me))
 
-    Ab <- rbind(ml,mu,me,m[!I,,drop=FALSE])
-    H <- rbind(dl,du,de,d[!I,,drop=FALSE])
+    Ab <- rbind(ml,mu,me,Ab[!I,,drop=FALSE])
+    H <- rbind(dl,du,de,H[!I,,drop=FALSE])
     o <- c(ol,ou,oe,ops[!I])
-    redundant <- rowSums(H) > n + 1 #| isObviouslyRedundant.matrix(E=m, operators=o)
-
-    Ab <- Ab[!redundant,-var,drop=FALSE]
+    redundant <- rowSums(H) > h + 1 #| isObviouslyRedundant.matrix(E=m, operators=o)
+    
+    Ab <- Ab[!redundant,,drop=FALSE]
     H <- H[!redundant,,drop=FALSE]
 
     L <- normalize(
-        A = Ab[,-nrow(Ab),drop=FALSE]
-      , b = Ab[,nrow(Ab),drop=TRUE]
+        A = Ab[,-ncol(Ab),drop=FALSE]
+      , b = Ab[,ncol(Ab),drop=TRUE]
       , operators = o[!redundant]
     ) 
     list(A = L$A, b = L$b, neq=L$neq, H=H[L$order,,drop=FALSE], h=h)
