@@ -59,18 +59,14 @@
 #' @seealso \code{\link{sparse_project}}
 #' @export
 project <- function(x,A,b, neq=length(b), w=rep(1.0,length(x)), tol=1e-2, maxiter=1000L){
+  
+  check_sys(A=A, b=b, neq=neq, x=x, tol=tol)
+
   stopifnot(is.numeric(x)
-  , length(x) == ncol(A)
-  , all_finite(x)
-  , is.numeric(b)
-  , length(b) == nrow(A)
-  , all_finite(b)
   , length(w) == length(x)
   , is.numeric(w)
   , all_finite(w)
   , all(w>0)
-  , tol > 0
-  , is.finite(tol)
   , maxiter > 0
   , is.finite(maxiter)
   )

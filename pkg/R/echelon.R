@@ -26,6 +26,7 @@
 #' 
 #' @export
 echelon <- function(A, b, neq=nrow(A), tol=1e-8){
+    check_sys(A=A,b=b,neq=neq,tol=tol)
   
     Ab <- cbind(A,b)
     

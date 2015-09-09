@@ -48,7 +48,8 @@
 #' The American Mathematical Monthly 93, 681-695
 #' @export
 eliminate <- function(A, b, neq , variable, H=NULL, h=0){
-
+  check_sys(A=A, b=b, neq=neq)
+  
     Ab <- cbind(A,b)
     if (is.character(variable)){
       var <- match(variable, colnames(A))[1]

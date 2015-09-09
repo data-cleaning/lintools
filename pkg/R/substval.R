@@ -20,6 +20,7 @@
 #'
 #' @export
 subst_value <- function(A, b, variables, values){
+  check_sys(A=A, b=b)
   if ( is.character(variables) ){
     variables <- match(variables,colnames(A))
   }
