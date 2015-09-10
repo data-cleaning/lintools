@@ -9,8 +9,17 @@
 Tools for manipulating systems of linear (in)equations.
 
 This is a low-level package, to be used by several packages in the
-`validate`-suite of packages. It is not finished yet, but it will at
-least offer the following functionality.
+`validate`-suite of packages. It is not finished yet, but it will at least
+offer the following functionality.
+
+The package offers fairly generic functionality for manipulating linear systems.
+Some, if not all of this is functionality is probably available in R, scattered
+accross packages. This package combines a bunch of functionality and offers them
+with a basic, but consistent interface.
+
+If you're willing to give the package a whirl, please install it with the
+instructions below. We're happy to receive feedback on the [issues
+page](https://github.com/data-cleaning/lintools/issues).
 
 
 #### Blocking
