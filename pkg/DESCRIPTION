@@ -5,15 +5,20 @@ Title: Manipulation of Linear Systems of (In)Equalities
 LazyData: no
 Type: Package
 LazyLoad: yes
-Author: c(person("Mark", "van der Loo",role=c("cre","aut"),email="mark.vanderloo@gmail.com") 
-     , person("Edwin", "de Jonge", role="aut"))
+Author: c(person("Mark", "van der
+    Loo",role=c("cre","aut"),email="mark.vanderloo@gmail.com") , person("Edwin", "de
+    Jonge", role="aut"))
 Description: Several tools for manipulating linear systems of equalities and/or
-    inequalities. Includes reduction to reduced row echelon form, value substitution
-    variable elimination (Gaussian elimination, Fourier-Motzkin elimination) and
-    projecting a vector on the convex polytope described by a system of (in)equations.
+    inequalities. Includes Moore-Penrose pseudoinverse, reduction to reduced
+    row echelon form, value substitution, variable elimination (Gaussian
+    elimination, Fourier-Motzkin elimination), and projecting a vector on the
+    convex polytope described by a system of (in)equations.
 Version: 0.0.1
 URL: https://github.com/data-cleaning/lintools
 BugReports: https://github.com/data-cleaning/lintools/issues
 Date: 2015-09-08
-Suggests: testthat, knitr
+Suggests:
+    testthat,
+    knitr
 VignetteBuilder: knitr
+RoxygenNote: 5.0.1

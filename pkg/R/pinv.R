@@ -4,8 +4,8 @@
 #' Compute the pseudoinverse of a matrix using the
 #' SVD-construction 
 #'
-#' @param A a matrix
-#' @param eps tolerance for determining zero singular values
+#' @param A [numeric] matrix
+#' @param eps [numeric] tolerance for determining zero singular values
 #'
 #' @keywords internal
 pinv <- function(A, eps=1e-8){
