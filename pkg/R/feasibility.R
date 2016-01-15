@@ -2,7 +2,7 @@
 # find straigtforward contradictions of the form 0 <= b or 0 == b 
 has_contradiction <- function(A,b,tol){
   if (nrow(A)==0) return(FALSE)
-  if (ncol(A)==0 & abs(b) > tol) return(TRUE)
+  if (ncol(A)==0 & all(abs(b) > tol)) return(TRUE)
   any(rowSums(abs(A)>tol) == 0 & (abs(b)>tol))
 }
 
