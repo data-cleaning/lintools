@@ -19,7 +19,7 @@ instructions below. We're happy to receive feedback on the [issues
 page](https://github.com/data-cleaning/lintools/issues).
 
 
-#### Compacifying
+#### Compactifying
 
 Remove spurious rows and columns. Combine inequations of the form
 ```
