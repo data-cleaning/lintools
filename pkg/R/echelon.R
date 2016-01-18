@@ -13,7 +13,7 @@
 #' @param A \code{[numeric]} matrix
 #' @param b \code{[numeric]} vector
 #' @param neq \code{[numeric]} The first \code{neq} rows of \code{A}, \code{b} are treated as equations.
-#' @param tol \code{[numeric]} Values of magnitude less than \code{tol} are considered zero (for the purpose of handling
+#' @param eps \code{[numeric]} Values of magnitude less than \code{eps} are considered zero (for the purpose of handling
 #' machine rounding errors).
 #' 
 #' @return 
@@ -25,8 +25,8 @@
 #' }
 #' 
 #' @export
-echelon <- function(A, b, neq=nrow(A), tol=1e-8){
-    check_sys(A=A,b=b,neq=neq,tol=tol)
+echelon <- function(A, b, neq=nrow(A), eps=1e-8){
+    check_sys(A=A,b=b,neq=neq,eps=eps)
   
     Ab <- cbind(A,b)
     
@@ -39,17 +39,17 @@ echelon <- function(A, b, neq=nrow(A), tol=1e-8){
         I1 <- which(I >= i)
         ip <- I1[which.max(abs(Ab[I1,i]))]
         p <- Ab[ip,]
-        if ( abs(p[i]) < tol ) next
+        if ( abs(p[i]) < eps ) next
         if ( ip > i ) Ab[c(ip,i),] <- Ab[c(i,ip),]
         Ab[-i,] <- Ab[-i,] - outer(Ab[-i,i],p/p[i])
     }
     
     d <- diag(Ab)
-    id <- abs(d) > tol
+    id <- abs(d) > eps
     Ab[id,] <- Ab[id,]/d[id]
-    I0 <- rowSums(abs(Ab) < tol) == ncol(Ab)
+    I0 <- rowSums(abs(Ab) < eps) == ncol(Ab)
     Ab <- rbind(Ab[!I0,,drop=FALSE],Ab[I0,,drop=FALSE])
-    i <- rowSums(abs(Ab) > tol) > 0 
+    i <- rowSums(abs(Ab) > eps) > 0 
     Ab <- rbind(Ab[i,,drop=FALSE],ineq)
     list(
       A = as.matrix(Ab[,1:ncol(A),drop=FALSE])

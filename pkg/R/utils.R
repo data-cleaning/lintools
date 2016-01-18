@@ -6,7 +6,7 @@ all_finite <- function(x){
 }
 
 
-check_sys <- function(A, b, neq, x ,tol){
+check_sys <- function(A, b, neq, x ,eps){
   if (!is.numeric(A)){
     stop("'A' is not a numeric matrix")
   }
@@ -19,11 +19,11 @@ check_sys <- function(A, b, neq, x ,tol){
   if ( !is.matrix(A)){
     stop("'A' is not of class 'matrix'")
   }
-  if (!missing(tol) && !all_finite(tol)){
-    stop("Non-finite value specified for 'tol'")
+  if (!missing(eps) && !all_finite(eps)){
+    stop("Non-finite value specified for 'eps'")
   }
-  if (!missing(tol) && tol < 0){
-    stop("Negative value for 'tol' specified")
+  if (!missing(eps) && eps < 0){
+    stop("Negative value for 'eps' specified")
   }
   if (!all_finite(A)){
     stop("Non-finite values detected in 'A'")

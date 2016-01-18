@@ -2,7 +2,7 @@
 #' 
 #' A system of linear (in)equations can be compactified by removing
 #' zero-rows and zero-columns (=variables). Such rows and columns may
-#' arise after substitution (see \code{\link{subsval}}) or eliminaton
+#' arise after substitution (see \code{\link{subst_value}}) or eliminaton
 #' of a variable (see \code{\link{eliminate}}).
 #' 
 #' @section Details:

@@ -2,13 +2,13 @@
 #' Find independent blocks of equations.
 #'
 #' @param A \code{[numeric]} Matrix
-#' @param tol \code{[numeric]} Coefficients with absolute value \code{< tol} are treated as zero.
+#' @param eps \code{[numeric]} Coefficients with absolute value \code{< eps} are treated as zero.
 #'
 #' @return A \code{list} containing \code{numeric} vectors, each vector indexing an independent
 #' block of rows in the system \code{Ax <= b}.
 #' 
 #'
-block_index <- function(A, tol=1e-8){
+block_index <- function(A, eps=1e-8){
   
   
   block <- function(B){
@@ -26,7 +26,7 @@ block_index <- function(A, tol=1e-8){
     b
   }
   
-  D <- abs(cbind(A)) > tol
+  D <- abs(cbind(A)) > eps
   orignames <- row.names(D)
   row.names(D) <- 1:nrow(D)
   

@@ -58,10 +58,10 @@ test_that("sparseConstraints object",{
   expect_equivalent(sc$.diffsum(x), 4)
   x <- c(0.5,0.5)
   # no adjusting necessary
-  expect_equal(sc$project(x,w=c(1,1),tol=0.01,maxiter=100)$x, x,tolerance=0.01)
+  expect_equal(sc$project(x,w=c(1,1),eps=0.01,maxiter=100)$x, x,tolerance=0.01)
   # adjusting necessary
   x <- c(0,0)
-  expect_equal(sc$project(x,w=c(1,1), tol=0.01, maxiter=100)$x, c(0.5,0.5), tolerance=0.01)
+  expect_equal(sc$project(x,w=c(1,1), eps=0.01, maxiter=100)$x, c(0.5,0.5), tolerance=0.01)
   
   # no-crash test for printing
   capture.output(print(sc))

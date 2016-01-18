@@ -29,7 +29,7 @@
 #' \itemize{
 #'   \item{\code{x}: \code{[numeric]} the vector to be optimized}
 #'   \item{\code{w}: \code{[numeric]} the weight vector (of \code{length(x)}). By default all weights equal 1.}
-#'   \item{\code{tol}: \code{[numeric]} desired tolerance. By default \eqn{10^{-2}} }
+#'   \item{\code{eps}: \code{[numeric]} desired epserance. By default \eqn{10^{-2}} }
 #'   \item{\code{maxiter}: \code{[integer]} maximum number of iterations. By default 1000.}
 #' }
 #' The return value of \code{$spa} is the same as that of \code{\link{sparse_project}}.
@@ -129,9 +129,9 @@ make_sc <- function(e){
   }
 
   # adjust input vector minimally to meet restrictions.
-  e$project <- function(x, w=rep(1,length(x)), tol=1e-2, maxiter=1000L){
+  e$project <- function(x, w=rep(1,length(x)), eps=1e-2, maxiter=1000L){
     stopifnot(
-      tol > 0
+      eps > 0
       , maxiter > 0
       , all_finite(w)
       , all_finite(x)
@@ -141,20 +141,20 @@ make_sc <- function(e){
        e$.sc, 
        as.double(x), 
        as.double(w), 
-       as.double(tol), 
+       as.double(eps), 
        as.integer(maxiter)
     )
     t1 <- proc.time()
     objective <- sqrt(sum((x-as.vector(y))^2*w))
     
-    tol <- attr(y,"tol")
+    eps <- attr(y,"eps")
     status <- attr(y,"status")
     niter  <- attr(y,"niter")
     attributes(y) <- NULL
     
     list(x = y
       , status = status
-      , tol=tol
+      , eps=eps
       , iterations = niter
       , duration=t1-t0 
       , objective=objective
