@@ -9,6 +9,7 @@
 #' @param b \code{[numeric]} vector 
 #' @param variables \code{[numeric|logical|character]} vector of column indices in \code{A}
 #' @param values \code{[numeric]} vecor of values to substitute.
+#' @param remove_columns Remove spurious columns when substituting?
 #'
 #' @return A \code{list} with the following components:
 #' 
@@ -19,13 +20,17 @@
 #'
 #'
 #' @export
-subst_value <- function(A, b, variables, values){
+subst_value <- function(A, b, variables, values, remove_columns=FALSE){
   check_sys(A=A, b=b)
   if ( is.character(variables) ){
     variables <- match(variables,colnames(A))
   }
 
   b <- as.vector(b - A[,variables,drop=FALSE] %*% values)
-  A <- A[,-variables,drop=FALSE]
+  if (remove_columns){
+    A <- A[,-variables,drop=FALSE]
+  } else {
+    A[,variables] <- 0
+  }
   list(A=A, b=b)
 }

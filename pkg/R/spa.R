@@ -4,6 +4,9 @@
 #' \item{Rewrite in reduced row echelon form}
 #' \item{Eliminate variables through Gaussian or Fourier-Motzkin elimination}
 #' \item{Simplify a system by substituting values}
+#' \item{Compute Moore-Penrose Pseudoinverse}
+#' \item{Split matrices in independent blocks}
+#' \item{Compute feasibility of a linear system of (in)equations}
 #' \item{Project a vector onto the convec polytope described by a set of linear (in)equations}
 #' }
 #'
