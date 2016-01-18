@@ -1,5 +1,8 @@
 #' Generate sparse set of constraints.
 #'
+#' Generate a constraint set to be used by \code{\link{sparse_project}}
+#'
+#'
 #' @param object R object to be translated to sparseConstraints format.
 #' @param ... options to be passed to other methods
 #'
@@ -39,7 +42,8 @@ sparseConstraints = function(object, ...){
 }
 
 
-#'
+#' Read sparse constraints from a \code{data.frame}
+#' 
 #' @method sparseConstraints data.frame
 #'
 #' @param b Constant vector
@@ -85,6 +89,7 @@ sparseConstraints.data.frame <- function(object, b, neq=length(b), base=1L, sort
 
 
 
+#' Print sparseConstraints object
 #' 
 #' @method print sparseConstraints
 #' @param range integer vector stating which constraints to print
