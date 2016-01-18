@@ -3,8 +3,7 @@
 has_contradiction <- function(A,b, neq, nleq, eps){
   if (nrow(A)==0) return(FALSE)
   if (ncol(A)==0 & all(abs(b) > eps)) return(TRUE)
-  
-  
+
   ieq <- seq_len(neq)
   leq <- neq + seq_len(nleq)
   lt <- neq + nleq + seq_len(nrow(A)-neq-nleq)
@@ -12,7 +11,7 @@ has_contradiction <- function(A,b, neq, nleq, eps){
   AI <- rowSums(abs(A) > eps) == 0
   any( AI[ieq] & abs(b[ieq]) > eps) ||
     any( AI[leq] & b[leq] <= -eps) ||
-    any( AI[lt] & b[lt] < -eps )
+    any( AI[lt] & b[lt] <= 0 )
 }
 
 
@@ -28,8 +27,16 @@ has_contradiction <- function(A,b, neq, nleq, eps){
 #' @param eps [\code{numeric}] Absolute values \code{< eps} are treated as zero.
 #' @param method [\code{character}] At the moment, only the 'elimination' method is implemented.
 #'
-#'
 #' @export
+#' 
+#' @examples 
+#' # x + y == 0
+#' # x > 0
+#' # y > 0
+#' A <- matrix(c(1,1,1,0,0,1),byrow=TRUE,nrow=3)
+#' b <- rep(0,3)
+#' is_feasible(A=A,b=b,neq=1,nleq=0)
+#' 
 is_feasible <- function(A, b, neq=nrow(A), nleq=0, eps=1e-8, method="elimination"){
   if (nrow(A)==0) return(TRUE)
   if ( has_contradiction(A=A,b=b,neq=neq,nleq=nleq,eps=eps) ) return(FALSE)
@@ -44,15 +51,15 @@ is_feasible <- function(A, b, neq=nrow(A), nleq=0, eps=1e-8, method="elimination
   # - figure out a good variable elimination order
    
   for ( ii in bi ){
-    block <- compact(
+    L <- compact(
       A[ii,,drop=FALSE]
       , b=b[ii]
       , neq=sum(ii<=neq)
       , nleq= sum(ii>neq & ii <= nleq)
+      , remove_columns=FALSE
       )
-    L <- eliminate(block$A, block$b, neq = block$neq, variable=1)
-    L <- compact(L$A, L$b, neq=L$neq, nleq=L$nleq, eps=eps)
-    feasible <- is_feasible(A=L$A, b=L$b, neq=L$neq, eps=eps) 
+    L <- eliminate(L$A, L$b, neq = L$neq, variable=1)
+    feasible <- is_feasible(A=L$A, b=L$b, neq=L$neq,nleq=L$nleq, eps=eps) 
     if (!feasible) break
   }
   feasible

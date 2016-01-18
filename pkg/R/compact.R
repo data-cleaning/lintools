@@ -41,10 +41,11 @@
 #' @export
 compact <- function(A, b, x=NULL, neq=nrow(A), nleq=0, eps=1e-8
     , remove_columns=TRUE, remove_rows=TRUE, implied_equations=TRUE ){
-  check_sys(A=A,b=b) 
+  check_sys(A=A,b=b,neq=neq,eps=eps) 
+ 
   Ai <- abs(A) > eps
   
-  ops <- rep("<",neq)
+  ops <- rep("<",nrow(A))
   ops[seq_len(neq)] <- "=="
   ops[neq + seq_len(nleq)] <- "<="
   
@@ -55,9 +56,11 @@ compact <- function(A, b, x=NULL, neq=nrow(A), nleq=0, eps=1e-8
     if (!is.null(x)) x <- x[!cols_removed]
   }
   
-  rows_removed <- logical(nrow(A))
   if ( remove_rows ){
-    rows_removed <- rowSums(Ai) == 0 & abs(b) < eps
+    I <- rowSums(Ai) == 0
+    
+    rows_removed <- (ops != "<" & I & abs(b) < eps ) | (ops == "<" & I & b < -eps)
+    
     A <- A[!rows_removed,,drop=FALSE]
     b <- b[!rows_removed]
     neq <- neq - sum(ops == "==" & rows_removed)
