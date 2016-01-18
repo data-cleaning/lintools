@@ -9,7 +9,7 @@
 #' @param b \code{[numeric]} vector 
 #' @param variables \code{[numeric|logical|character]} vector of column indices in \code{A}
 #' @param values \code{[numeric]} vecor of values to substitute.
-#' @param remove_columns Remove spurious columns when substituting?
+#' @param remove_columns \code{[logical]} Remove spurious columns when substituting?
 #'
 #' @return A \code{list} with the following components:
 #' 

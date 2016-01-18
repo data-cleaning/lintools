@@ -1,5 +1,5 @@
 
-context("Imputation by pseudoinverse")
+context("Pseudoinverse")
 
 test_that("Computing pseudoinverse",{
  # example from appendix of Schaum's outline (2009) on linear algebra
