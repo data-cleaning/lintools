@@ -1,14 +1,18 @@
 
 # find straigtforward contradictions of the form 0 <= b or 0 == b 
-has_contradiction <- function(A,b,eps){
+has_contradiction <- function(A,b, neq, nleq, eps){
   if (nrow(A)==0) return(FALSE)
   if (ncol(A)==0 & all(abs(b) > eps)) return(TRUE)
-  any(rowSums(abs(A)>eps) == 0 & (abs(b)>eps))
-}
-
-# find straightforward redundancies of the form 0 <= 0 or 0 == 0
-is_tauepsogy <- function(A,b,eps){
-  rowSums(abs(A) > eps) == 0 & abs(b) < eps
+  
+  
+  ieq <- seq_len(neq)
+  leq <- neq + seq_len(nleq)
+  lt <- neq + nleq + seq_len(nrow(A)-neq-nleq)
+  # nonzero entries
+  AI <- rowSums(abs(A) > eps) == 0
+  any( AI[ieq] & abs(b[ieq]) > eps) ||
+    any( AI[leq] & b[leq] <= -eps) ||
+    any( AI[lt] & b[lt] < -eps )
 }
 
 
@@ -28,7 +32,7 @@ is_tauepsogy <- function(A,b,eps){
 #' @export
 is_feasible <- function(A, b, neq=nrow(A), nleq=0, eps=1e-8, method="elimination"){
   if (nrow(A)==0) return(TRUE)
-  if ( has_contradiction(A,b,eps) ) return(FALSE)
+  if ( has_contradiction(A=A,b=b,neq=neq,nleq=nleq,eps=eps) ) return(FALSE)
   
   bi <- block_index(A,eps = eps)
   # sort so smaller blocks are treated first:

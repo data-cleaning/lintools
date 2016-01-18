@@ -11,3 +11,19 @@ test_that("is_feasible",{
 })
 
 
+test_that("simple contradiction detection",{
+  # 0 < -1
+  expect_false(has_contradiction(A=matrix(0),b=1e-9,neq=0,nleq=0,eps=1e-8))
+  expect_true(has_contradiction(A=matrix(0),b=-1,neq=0,nleq=0,eps=1e-8))
+  
+  # 0 <= 0 
+  expect_false( has_contradiction(A=matrix(0),b=1e-9,neq=0,nleq=1,eps=1e-8) )
+  expect_true(has_contradiction(A=matrix(0),b=-2e-8,neq=0,nleq=1,eps=1e-8))
+  
+  # 0 == 1
+  expect_false(has_contradiction(A=matrix(0), b=1e-9,neq=1,nleq=0,eps=1e-8))
+  expect_true(has_contradiction(A=matrix(0), b=2e-8,neq=1,nleq=0,eps=1e-8))
+  
+})
+
+
