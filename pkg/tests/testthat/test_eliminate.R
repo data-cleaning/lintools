@@ -15,6 +15,7 @@ test_that("Gaussian elimination",{
   expect_equivalent(L$A,matrix(c(0,1,-1)))
   expect_equivalent(L$b,0)
   expect_equal(L$neq,2)
+  expect_equal(L$nleq,0)
   expect_equal(L$H,NULL)
   expect_equal(L$h,0)
 })
@@ -32,6 +33,7 @@ test_that("Eliminate named variable",{
   expect_equivalent(L$A,matrix(c(0,1,-1)))
   expect_equivalent(L$b,0)
   expect_equal(L$neq,2)
+  expect_equal(L$nleq,0)
   expect_equal(L$H,NULL)
   expect_equal(L$h,0)
 })
@@ -49,7 +51,7 @@ test_that("Fourier-Motzkin elimination",{
     0,  0, -1,  0),byrow=TRUE,nrow=6) 
   
   b <- c(0,2,3,0,0,0)
-  L <- eliminate(A=A,b=b,neq=0,variable=1)
+  L <- eliminate(A=A,b=b,neq=0,nleq=6,variable=1)
  
   expect_equivalent(L$A,
     matrix(c(
@@ -71,6 +73,25 @@ test_that("Fourier-Motzkin elimination",{
       FALSE, FALSE, FALSE, FALSE, FALSE,  TRUE), byrow=TRUE,nrow=6)
   )
   expect_equal(L$h,1)
+  expect_equal(L$nleq,6)
+  
+  # x + y - z <= 0
+  #   - y     < 1
+  A <- matrix(c(
+    1,1,-1,
+    0,-1,0
+  ),byrow=TRUE,nrow=2)
+  b <- c(0,1)
+  
+  # x - z < 1 ( "<" dominates "<=" )
+  L <- eliminate(A,b,neq=0,nleq=1,variable=2)
+  expect_equivalent(L$A,matrix(c(1,0,-1),nrow=1))
+  expect_equivalent(L$b,1)
+  expect_equal(L$neq,0)
+  expect_equal(L$nleq,0)
+  expect_equal(L$H,matrix(c(TRUE,TRUE),nrow=1))
+  expect_equal(L$h,1)
+  
 })
 
 

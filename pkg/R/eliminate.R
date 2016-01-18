@@ -19,8 +19,10 @@
 #' @param A \code{[numeric]} Matrix 
 #' @param b \code{[numeric]} vector
 #' @param neq [\code{numeric}] The first \code{neq} rows in \code{A} and
-#'   \code{b} are treated as linear equalities. The others as Linear
-#'   inequalities of the form \eqn{Ax<=b}.
+#'   \code{b} are treated as linear equalities. 
+#' @param nleq [\code{numeric}] The \code{nleq} rows after \code{neq} are treated as
+#' inequations of the form \code{a.x<=b}. All remaining rows are treated as strict inequations
+#' of the form \code{a.x<b}.
 #' @param variable \code{[numeric|logical|character]} Index in columns of \code{A}, representing the variable to eliminate.
 #' @param H \code{[numeric]} (optional) Matrix indicating how linear inequalities have been derived. 
 #' @param h \code{[numeric]} (optional) number indicating how many variables have been eliminated from the original system
@@ -47,7 +49,7 @@
 #' H.P. Williams (1986) Fourier's method of linear programming and its dual,
 #' The American Mathematical Monthly 93, 681-695
 #' @export
-eliminate <- function(A, b, neq , variable, H=NULL, h=0){
+eliminate <- function(A, b, neq, nleq=0, variable, H=NULL, h=0){
   check_sys(A=A, b=b, neq=neq)
   
     Ab <- cbind(A,b)
@@ -57,11 +59,10 @@ eliminate <- function(A, b, neq , variable, H=NULL, h=0){
       var <- variable
     }
     
-    
-    
-    ops <- rep("<=",nrow(A))
+    ops <- rep("<",nrow(A))
     ops[seq_len(neq)] <- "=="
-   
+    ops[neq + seq_len(nleq)] <- "<="
+    
     coefs <- Ab[,var]
     I <- coefs != 0
     
@@ -86,6 +87,7 @@ eliminate <- function(A, b, neq , variable, H=NULL, h=0){
         A = Ab[ii,-ncol(Ab), drop=FALSE]
         , b = b[ii]
         , neq = sum(ii<=neq)
+        , nleq = nleq
         , H = H
         , h = h
       ))
@@ -132,13 +134,12 @@ eliminate <- function(A, b, neq , variable, H=NULL, h=0){
     
     Ab <- Ab[!redundant,,drop=FALSE]
     H <- H[!redundant,,drop=FALSE]
-
     L <- normalize(
         A = Ab[,-ncol(Ab),drop=FALSE]
       , b = Ab[,ncol(Ab),drop=TRUE]
       , operators = o[!redundant]
     ) 
-    list(A = L$A, b = L$b, neq=L$neq, H=H[L$order,,drop=FALSE], h=h)
+    list(A = L$A, b = L$b, neq=L$neq, nleq=L$nleq, H=H[L$order,,drop=FALSE], h=h)
 }
 
 
@@ -163,39 +164,40 @@ eliminate <- function(A, b, neq , variable, H=NULL, h=0){
 #' @param A \code{[numeric]} Matrix
 #' @param b \code{[numeric]} vector
 #' @param operators \code{[character]} operators in \code{{<,<=,==,>=,>}}.
-#' @param unit \code{[numeric]} (positive) Your unit of measurement. This is used to
+#' @param unit \code{[numeric]} (nonnegative) Your unit of measurement. This is used to
 #' replace strict inequations of the form \code{a.x < b} with \code{a.x <= b-unit}.
 #' Typically, \code{unit} is related to the units in which your data 
-#' is measured.  
+#' is measured.  If unit is 0, inequations are not replaced.
 #' 
 #' @return A \code{list} with the folowing components
 #' \itemize{
 #'   \item{\code{A}: the \code{A} corresponding to the normalized sytem.}
 #'   \item{\code{b}: the constant vector corresponding to the normalized system}
 #'   \item{\code{neq}: the number of equations}
+#'   \item{\code{nleq}}: the number of non-strict inequations (<=)
 #'   \item{\code{order}: the index vector used to permute the original rows of \code{A}.}
 #' }
 #' 
 #' 
 #' 
 #' @export
-normalize <- function(A, b, operators, unit=1 ){
-  
+normalize <- function(A, b, operators, unit=0 ){
+  stopifnot(unit >= 0)
   geq <- operators  == ">="
   gt <- operators == ">"
   A[geq|gt,] <- -A[geq|gt,,drop=FALSE]
-  b[geq] <- -b[geq]
-  b[gt] <- -b[gt] - unit
-  operators[geq|gt] <- "<="
- 
-  lt <- operators == "<"
-  b[lt] <- b[lt] - unit
-  operators[lt] <- "<="
-  
+  b[geq|gt] <- -b[geq|gt]
+  if (unit > 0){
+    b[gt] <- b[gt] - unit
+    operators[geq|gt] <- "<="
+    lt <- operators == "<"
+    b[lt] <- b[lt] - unit
+    operators[lt] <- "<="
+  }
    
   ii <- order(operators,decreasing=TRUE)
     
-  list(A = A[ii,,drop=FALSE], b=b[ii], neq=sum(operators=="=="), order=ii)
+  list(A = A[ii,,drop=FALSE], b=b[ii], neq=sum(operators=="=="), nleq = sum(operators=="<="),order=ii)
 }
 
 
