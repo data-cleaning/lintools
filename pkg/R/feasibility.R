@@ -1,41 +1,54 @@
 
 # find straigtforward contradictions of the form 0 <= b or 0 == b 
-has_contradiction <- function(A,b,tol){
+has_contradiction <- function(A,b,eps){
   if (nrow(A)==0) return(FALSE)
-  if (ncol(A)==0 & all(abs(b) > tol)) return(TRUE)
-  any(rowSums(abs(A)>tol) == 0 & (abs(b)>tol))
+  if (ncol(A)==0 & all(abs(b) > eps)) return(TRUE)
+  any(rowSums(abs(A)>eps) == 0 & (abs(b)>eps))
 }
 
 # find straightforward redundancies of the form 0 <= 0 or 0 == 0
-is_tautology <- function(A,b,tol){
-  rowSums(abs(A) > tol) == 0 & abs(b) < tol
+is_tauepsogy <- function(A,b,eps){
+  rowSums(abs(A) > eps) == 0 & abs(b) < eps
 }
 
-shrink <- function(A, b, neq, tol){
-  i <- !is_tautology(A,b,tol)
-  j <- colSums(abs(A)>tol) == 0 
-  list(
-      A   = A[i,!j,drop=FALSE]
-    , b   = b[i]
-    , neq = sum(which(i) < neq)
-  )
-}
 
-is_feasible <- function(A, b, neq=nrow(A), tol=1e-8){
+#' Check feasibility of a system of linear (in)equations
+#'
+#' @param A [\code{numeric}] matrix
+#' @param b [\code{numeric}] vector
+#' @param neq [\code{numeric}] The first \code{neq} rows in \code{A} and
+#'   \code{b} are treated as linear equalities. 
+#' @param nleq [\code{numeric}] The \code{nleq} rows after \code{neq} are treated as
+#'   inequations of the form \code{a.x<=b}. All remaining rows are treated as strict inequations
+#'   of the form \code{a.x<b}.
+#' @param eps [\code{numeric}] Absolute values \code{< eps} are treated as zero.
+#' @param method [\code{character}] At the moment, only the 'elimination' method is implemented.
+#'
+#'
+#' @export
+is_feasible <- function(A, b, neq=nrow(A), nleq=0, eps=1e-8, method="elimination"){
   if (nrow(A)==0) return(TRUE)
-  if ( has_contradiction(A,b,tol) ) return(FALSE)
+  if ( has_contradiction(A,b,eps) ) return(FALSE)
   
-  bi <- block_index(A,tol = tol)
+  bi <- block_index(A,eps = eps)
   # sort so smaller blocks are treated first:
   bi <- bi[order(sapply(bi,length))]
-  
-  blocks <- lapply(bi, function(i) shrink(A=A[i,,drop=FALSE], b=b[i], neq = sum(i <= neq), tol=tol))
-  
-  for ( sys in blocks ){
-    var <- 1    
-    L <- eliminate(sys$A, sys$b, neq = sys$neq, variable=var)
-    L <- shrink(L$A, L$b, neq=L$neq, tol=tol)
-    feasible <- is_feasible(A=L$A, b=L$b, neq=L$neq, tol=tol) 
+ 
+  ## TODO: all sorts of optimizations, including:
+  # - use H-matrix from elimination step
+  # - check singularity of A'A of equality section
+  # - figure out a good variable elimination order
+   
+  for ( ii in bi ){
+    block <- compact(
+      A[ii,,drop=FALSE]
+      , b=b[ii]
+      , neq=sum(ii<=neq)
+      , nleq= sum(ii>neq & ii <= nleq)
+      )
+    L <- eliminate(block$A, block$b, neq = block$neq, variable=1)
+    L <- compact(L$A, L$b, neq=L$neq, nleq=L$nleq, eps=eps)
+    feasible <- is_feasible(A=L$A, b=L$b, neq=L$neq, eps=eps) 
     if (!feasible) break
   }
   feasible

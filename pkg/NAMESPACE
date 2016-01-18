@@ -2,6 +2,7 @@
 
 S3method(print,sparseConstraints)
 S3method(sparseConstraints,data.frame)
+export(compact)
 export(echelon)
 export(eliminate)
 export(normalize)
