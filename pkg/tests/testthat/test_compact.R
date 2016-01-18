@@ -128,7 +128,6 @@ test_that("combined inequalities and row removal",{
   expect_equal(L$neq,2)
   expect_equal(L$nleq,0)
   expect_equal(L$cols_removed,c(FALSE,FALSE))
-  
 })
 
 
