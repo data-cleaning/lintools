@@ -19,7 +19,7 @@ instructions below. We're happy to receive feedback on the [issues
 page](https://github.com/data-cleaning/lintools/issues).
 
 
-#### Compacifying
+#### Compactifying
 
 Remove spurious rows and columns. Combine inequations of the form
 ```
@@ -57,10 +57,6 @@ Check whether a system of linear (in)equations has any solution.
 
 Given a vector not satisfying a set of (in)equations, project it onto
 the convex polytope described by the restrictions.
-
-#### Extract partial solutions
-
-Extract values that are uniquely defined (implied) by a set of (in)equations.
 
 
 
