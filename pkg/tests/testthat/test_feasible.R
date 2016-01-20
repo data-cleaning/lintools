@@ -8,6 +8,15 @@ test_that("is_feasible",{
   # x >= y & x <= y - 1 
   expect_false( is_feasible(A = matrix(c(-1,1,1,-1),byrow=TRUE,nrow=2), b = c(0,-1), neq = 0) )
   expect_false(is_feasible(matrix(0),b=1,neq=1))
+  # x + y == 0
+  # x > 0
+  # y > 0
+  expect_false(is_feasible(A = matrix(c(1,1,-1,0,0,-1),byrow=TRUE,nrow=3),b=c(0,0,0),neq=1,nleq=0))
+  # x + y == 0
+  # x >= 0
+  # y >= 0
+  expect_true(is_feasible(A = matrix(c(1,1,-1,0,0,-1),byrow=TRUE,nrow=3),b=c(0,0,0),neq=1,nleq=2))
+  
 })
 
 

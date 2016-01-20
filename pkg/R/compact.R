@@ -40,9 +40,19 @@
 #'  
 #' @export
 compact <- function(A, b, x=NULL, neq=nrow(A), nleq=0, eps=1e-8
-    , remove_columns=TRUE, remove_rows=TRUE, implied_equations=TRUE ){
+    , remove_columns=TRUE, remove_rows=TRUE, implied_equations=TRUE){
   check_sys(A=A,b=b,neq=neq,eps=eps) 
  
+  if ( nrow(A)==0 | ncol(A)== 0){
+    return(list(
+      A = matrix()[0,0,drop=FALSE]
+      , b=numeric(0)
+      , neq=0
+      , nleq=0
+      , cols_removed=!logical(ncol(A))
+    ))
+  }
+  
   Ai <- abs(A) > eps
   
   ops <- rep("<",nrow(A))
@@ -58,9 +68,7 @@ compact <- function(A, b, x=NULL, neq=nrow(A), nleq=0, eps=1e-8
   
   if ( remove_rows ){
     I <- rowSums(Ai) == 0
-    
     rows_removed <- (ops != "<" & I & abs(b) < eps ) | (ops == "<" & I & b < -eps)
-    
     A <- A[!rows_removed,,drop=FALSE]
     b <- b[!rows_removed]
     neq <- neq - sum(ops == "==" & rows_removed)
@@ -82,24 +90,26 @@ compact <- function(A, b, x=NULL, neq=nrow(A), nleq=0, eps=1e-8
     I <- I[ii]
     J <- J[ii]
     # compute implied equations
-    ieqn <- abs(rowSums(Ab[I,,drop=FALSE]+Ab[J,,drop=FALSE])) < eps 
-    keep <- I[ieqn]
-    throw <- J[ieqn]
-    ##
-    A <- rbind(
-      A[seq_len(neq),,drop=FALSE]            # original equalities
-      , A[ineqs[keep],,drop=FALSE]           # combined equalities
-      , A[ineqs[-c(throw,keep)],,drop=FALSE] # remaining inequalities
-      , A[-seq_len(neq+nleq),,drop=FALSE]    # strict inequalities
+    ieqn <- abs( rowSums(Ab[I,,drop=FALSE] + Ab[J,,drop=FALSE]) ) < eps 
+    if ( any(ieqn) ){
+      keep <-  I[ieqn]
+      throw <- J[ieqn]
+      ##
+      A <- rbind(
+        A[seq_len(neq),,drop=FALSE]            # original equalities
+        , A[ineqs[keep],,drop=FALSE]           # combined equalities
+        , A[ineqs[-c(throw,keep)],,drop=FALSE] # remaining inequalities
+        , A[-seq_len(neq+nleq),,drop=FALSE]    # strict inequalities
+        )
+      b <- c(
+        b[seq_len(neq)]            # original equalities
+        , b[ineqs[keep]]           # combined equalities
+        , b[ineqs[-c(throw,keep)]] # remaining inequalities
+        , b[-seq_len(neq+nleq)]    # strict inequalities
       )
-    b <- c(
-      b[seq_len(neq)]            # original equalities
-      , b[ineqs[keep]]           # combined equalities
-      , b[ineqs[-c(throw,keep)]] # remaining inequalities
-      , b[-seq_len(neq+nleq)]    # strict inequalities
-    )
-    neq <- neq + length(ieqn)
-    nleq <- length(ineqs) - length(throw) - length(keep)
+      neq <- neq + length(ieqn)
+      nleq <- length(ineqs) - length(throw) - length(keep)
+    }
   } 
   
   list(A=A, b=b, x=x, neq=neq, nleq=nleq, cols_removed=cols_removed)

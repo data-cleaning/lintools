@@ -1,17 +1,50 @@
 
-# find straigtforward contradictions of the form 0 <= b or 0 == b 
-has_contradiction <- function(A,b, neq, nleq, eps){
-  if (nrow(A)==0) return(FALSE)
-  if (ncol(A)==0 & all(abs(b) > eps)) return(TRUE)
+is_contradiction <- function(A,b,neq,nleq,eps){
+  
+  if (nrow(A)==0||ncol(A)==0) return(logical(0))
 
   ieq <- seq_len(neq)
   leq <- neq + seq_len(nleq)
   lt <- neq + nleq + seq_len(nrow(A)-neq-nleq)
-  # nonzero entries
+  # rows where ai=0
   AI <- rowSums(abs(A) > eps) == 0
-  any( AI[ieq] & abs(b[ieq]) > eps) ||
-    any( AI[leq] & b[leq] <= -eps) ||
-    any( AI[lt] & b[lt] <= 0 )
+  # contradiction in equality
+  eqs <- AI[ieq] & abs(b[ieq]) > eps
+  # contradictions in inequalities a.x <= b
+  ineqs <- AI[leq] & b[leq] < -eps
+  # contradictions in strict inequalities a.x < b
+  sineqs <- AI[lt] & b[lt] <= 0
+  
+  c(eqs,  ineqs,  sineqs)
+}
+
+is_tautology <- function(A,b,neq,nleq,eps){
+  if(nrow(A) == 0 |ncol(A) ==0 ) return(logical(0))
+  
+  ieq <- seq_len(neq)
+  leq <- neq + seq_len(nleq)
+  lt <- neq + nleq + seq_len(nrow(A)-neq-nleq)
+  # rows where ai=0
+  AI <- rowSums(abs(A) > eps) == 0
+  # tautology in equality
+  eqs <- AI[ieq] & abs(b[ieq]) < eps
+  # tautology in inequalities a.x <= b
+  ineqs <- AI[leq] & abs(b[leq]) < eps
+  # tautology in strict inequalities a.x < b
+  sineqs <- AI[lt] & b[lt] < -eps
+  
+  c(eqs,  ineqs,  sineqs)
+  
+  
+}
+
+are_tautologies <- function(A,b,neq,nleq,eps){
+  all(is_tautology(A=A,b=b,neq=neq,nleq=nleq,eps=eps))
+}
+
+# find straigtforward contradictions of the form 0 <= b or 0 == b 
+has_contradiction <- function(A,b, neq, nleq, eps){
+  any(is_contradiction(A,b,neq,nleq,eps))
 }
 
 
@@ -38,33 +71,22 @@ has_contradiction <- function(A,b, neq, nleq, eps){
 #' is_feasible(A=A,b=b,neq=1,nleq=0)
 #' 
 is_feasible <- function(A, b, neq=nrow(A), nleq=0, eps=1e-8, method="elimination"){
-  if (nrow(A)==0) return(TRUE)
-  if ( has_contradiction(A=A,b=b,neq=neq,nleq=nleq,eps=eps) ) return(FALSE)
+  # check before compact, because that also removes tautologies.
+  if ( has_contradiction(A=A, b=b, neq=neq, nleq=nleq, eps=eps) ) return(FALSE)
+  if ( are_tautologies(A=A, b=b, neq=neq, nleq=nleq,eps=eps) ) return(TRUE)
+  L <- compact(A=A,b=b,neq=neq,nleq=nleq,eps=eps)
+  # quick post-compactification check to avoid extra recursion
+  if ( nrow(L$A) == 0 | ncol(L$A) == 0 ) return(TRUE)
   
-  bi <- block_index(A,eps = eps)
-  # sort so smaller blocks are treated first:
-  bi <- bi[order(sapply(bi,length))]
- 
+  L <- eliminate(L$A, L$b, neq = L$neq, nleq=L$nleq, variable=1)
+  is_feasible(A=L$A, b=L$b, neq=L$neq,nleq=L$nleq, eps=eps) 
+}
+
   ## TODO: all sorts of optimizations, including:
+  # - blocking
   # - use H-matrix from elimination step
   # - check singularity of A'A of equality section
   # - figure out a good variable elimination order
-   
-  for ( ii in bi ){
-    L <- compact(
-      A[ii,,drop=FALSE]
-      , b=b[ii]
-      , neq=sum(ii<=neq)
-      , nleq= sum(ii>neq & ii <= nleq)
-      , remove_columns=FALSE
-      )
-    L <- eliminate(L$A, L$b, neq = L$neq, variable=1)
-    feasible <- is_feasible(A=L$A, b=L$b, neq=L$neq,nleq=L$nleq, eps=eps) 
-    if (!feasible) break
-  }
-  feasible
-}
-
 
 
 

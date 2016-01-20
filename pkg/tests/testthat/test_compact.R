@@ -130,6 +130,12 @@ test_that("combined inequalities and row removal",{
   expect_equal(L$cols_removed,c(FALSE,FALSE))
 })
 
-
+test_that("earlier bugs",{
+  
+  A <- matrix(c(1,1,-1,0,0,-1),byrow=TRUE,nrow=3)
+  b <- rep(0,3)
+  expect_equal(compact(A=A,b=b,neq=1,nleq=2,eps=1e-8)$neq, 1)
+  
+})
 
 
