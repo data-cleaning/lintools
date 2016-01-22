@@ -80,6 +80,17 @@ has_contradiction <- function(A,b, neq, nleq, eps){
 #' 
 #' @export
 is_feasible <- function(A, b, neq=nrow(A), nleq=0, eps=1e-8, method="elimination"){
+  fs_elimination(A=A, b=b, neq=neq, nleq=nleq, eps=eps)
+}
+
+  ## TODO: all sorts of optimizations, including:
+  # - blocking
+  # - check singularity of A'A of equality section (?)
+  # - figure out a good variable elimination order
+
+
+
+fs_elimination <- function(A, b, neq, nleq, eps, H=NULL, h=0){
   # check before compact, because that also removes tautologies.
   if ( has_contradiction(A=A, b=b, neq=neq, nleq=nleq, eps=eps) ) return(FALSE)
   if ( are_tautologies(A=A, b=b, neq=neq, nleq=nleq,eps=eps) ) return(TRUE)
@@ -87,15 +98,9 @@ is_feasible <- function(A, b, neq=nrow(A), nleq=0, eps=1e-8, method="elimination
   # quick post-compactification check to avoid extra recursion
   if ( nrow(L$A) == 0 | ncol(L$A) == 0 ) return(TRUE)
   
-  L <- eliminate(L$A, L$b, neq = L$neq, nleq=L$nleq, variable=1)
-  is_feasible(A=L$A, b=L$b, neq=L$neq,nleq=L$nleq, eps=eps) 
+  L <- eliminate(L$A, L$b, neq = L$neq, nleq=L$nleq, variable=1, H=H, h=h)
+  fs_elimination(A=L$A, b=L$b, neq=L$neq,nleq=L$nleq, eps=eps, H=L$H, h=L$h) 
 }
-
-  ## TODO: all sorts of optimizations, including:
-  # - blocking
-  # - use H-matrix from elimination step
-  # - check singularity of A'A of equality section
-  # - figure out a good variable elimination order
 
 
 
