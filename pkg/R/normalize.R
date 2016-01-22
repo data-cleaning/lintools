@@ -23,6 +23,7 @@
 #' is measured.  If unit is 0, inequations are not replaced.
 #' 
 #' @return A \code{list} with the folowing components
+#' 
 #' \itemize{
 #'   \item{\code{A}: the \code{A} corresponding to the normalized sytem.}
 #'   \item{\code{b}: the constant vector corresponding to the normalized system}
@@ -38,8 +39,6 @@
 #' ops <- c("<=","==","==","<")
 #' normalize(A,b,ops)
 #' normalize(A,b,ops,unit=0.1)
-#' 
-#' 
 #' 
 #' @export
 normalize <- function(A, b, operators, unit=0 ){
