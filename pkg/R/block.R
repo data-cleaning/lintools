@@ -6,8 +6,21 @@
 #'
 #' @return A \code{list} containing \code{numeric} vectors, each vector indexing an independent
 #' block of rows in the system \code{Ax <= b}.
-#' 
 #'
+#' @examples
+#' 
+#'  A <- matrix(c(
+#'    1,0,2,0,0,
+#'    3,0,4,0,0,
+#'    0,5,0,6,7,
+#'    0,8,0,0,9
+#'  ),byrow=TRUE,nrow=4)
+#'  b <- rep(0,4)
+#'  bi <- block_index(A)
+#'  lapply(bi,function(ii) compact(A[ii,,drop=FALSE],b=b[ii])$A)
+#'
+#'
+#' @export
 block_index <- function(A, eps=1e-8){
   
   

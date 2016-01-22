@@ -25,11 +25,11 @@
 #' @section The \code{$project} method:
 #' 
 #' Once a \code{sparseConstraints} object \code{sc} is created, you can reuse it to optimize
-#' several vectors by calling \code{sc$adjust()} with the following parameters:
+#' several vectors by calling \code{sc$project()} with the following parameters:
 #' \itemize{
 #'   \item{\code{x}: \code{[numeric]} the vector to be optimized}
 #'   \item{\code{w}: \code{[numeric]} the weight vector (of \code{length(x)}). By default all weights equal 1.}
-#'   \item{\code{eps}: \code{[numeric]} desired epserance. By default \eqn{10^{-2}} }
+#'   \item{\code{eps}: \code{[numeric]} desired tolerance. By default \eqn{10^{-2}} }
 #'   \item{\code{maxiter}: \code{[integer]} maximum number of iterations. By default 1000.}
 #' }
 #' The return value of \code{$spa} is the same as that of \code{\link{sparse_project}}.

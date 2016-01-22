@@ -63,7 +63,7 @@ compact <- function(A, b, x=NULL, neq=nrow(A), nleq=0, eps=1e-8
   if (remove_columns){
     cols_removed <- colSums(Ai) == 0
     A <- A[,!cols_removed,drop=FALSE]
-    if (!is.null(x)) x <- x[!cols_removed]
+    if( !is.null(x) ) x <- x[!cols_removed]
   }
   
   if ( remove_rows ){

@@ -1,18 +1,28 @@
 #' Reduced row echelon form
 #' 
-#' Transform the equalities in a system of linear (in)equations or reduced row echelon form (RRE)
+#' Transform the equalities in a system of linear (in)equations or Reduced Row Echelon form (RRE)
 #' 
 #' 
 #' @section Details:
 #' 
 #' The parameters \code{A}, \code{b} and \code{neq} describe a system of the form \code{Ax<=b}, where
-#' the first \code{neq} rows are equalities. The equalities are transformed to RRE form
-#' where rows containing only zeros are deleted. 
+#' the first \code{neq} rows are equalities. The equalities are transformed to RRE form.
+#' 
+#' 
+#' A system of equations is in \href{https://en.wikipedia.org/wiki/Row_echelon_form}{reduced row echelon} form when
+#' \itemize{
+#' \item{All zero rows are below the nonzero rows}
+#' \item{For every row, the leading coefficient (first nonzero from the left) is always right of the leading coefficient of the row above it.}
+#' \item{The leading coefficient equals 1, and is the only nonzero coefficient in its column.}
+#' }
 #' 
 #' 
 #' @param A \code{[numeric]} matrix
 #' @param b \code{[numeric]} vector
 #' @param neq \code{[numeric]} The first \code{neq} rows of \code{A}, \code{b} are treated as equations.
+#' @param nleq [\code{numeric}] The \code{nleq} rows after \code{neq} are treated as
+#'   inequations of the form \code{a.x<=b}. All remaining rows are treated as strict inequations
+#'   of the form \code{a.x<b}.
 #' @param eps \code{[numeric]} Values of magnitude less than \code{eps} are considered zero (for the purpose of handling
 #' machine rounding errors).
 #' 
@@ -22,10 +32,24 @@
 #'   \item{\code{A}: the \code{A} matrix with equalities transformed to RRE form.}
 #'   \item{\code{b}: the constant vector corresponding to \code{A}}
 #'   \item{\code{neq}: the number of equalities in the resulting system.}
+#'   \item{\code{nleq}}: the number of inequalities of the form \code{a.x <= b}. This will only
+#'   be passed to the output.
 #' }
 #' 
+#' @examples 
+#' echelon(
+#'  A = matrix(c(
+#'     1,3,1,
+#'     2,7,3,
+#'     1,5,3,
+#'     1,2,0), byrow=TRUE, nrow=4)
+#'  , b = c(4,-9,1,8)
+#'  , neq=4
+#' )
+#' 
+#' 
 #' @export
-echelon <- function(A, b, neq=nrow(A), eps=1e-8){
+echelon <- function(A, b, neq=nrow(A), nleq=0, eps=1e-8){
     check_sys(A=A,b=b,neq=neq,eps=eps)
   
     Ab <- cbind(A,b)
@@ -55,6 +79,7 @@ echelon <- function(A, b, neq=nrow(A), eps=1e-8){
       A = as.matrix(Ab[,1:ncol(A),drop=FALSE])
       , b = Ab[,ncol(A)+1,drop=TRUE]
       , neq = sum(i)
+      , nleq=nleq
     )
 }
 

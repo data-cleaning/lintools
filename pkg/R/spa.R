@@ -1,27 +1,9 @@
-#' Tools for manipulating linear systems of (in)equations
-#'
-#' \itemize{
-#' \item{Rewrite in reduced row echelon form}
-#' \item{Eliminate variables through Gaussian or Fourier-Motzkin elimination}
-#' \item{Simplify a system by substituting values}
-#' \item{Compute Moore-Penrose Pseudoinverse}
-#' \item{Split matrices in independent blocks}
-#' \item{Compute feasibility of a linear system of (in)equations}
-#' \item{Project a vector onto the convec polytope described by a set of linear (in)equations}
-#' }
-#'
-#'
-#' @name lintools
-#' @useDynLib lintools
-#' @docType package
-#' 
-{}
 
 
 
 #' Project a vector on the border of the region defined by a set of linear (in)equality restrictions.
 #'
-#' Compute a vector, closest to \code{x} satisfying a set of linear (in)equality restrictions.
+#' Compute a vector, closest to \code{x} in the Euclidean sense, satisfying a set of linear (in)equality restrictions.
 #'
 #' @param x [\code{numeric}] Vector that needs to satisfy the linear restrictions.
 #' @param A [\code{matrix}] Coefficient matrix for linear restrictions.
@@ -34,10 +16,10 @@
 #'
 #' @section Details:
 #'
-#' The epserance \code{eps} is defined as the maximum absolute value of the difference vector 
+#' The tolerance \code{eps} is defined as the maximum absolute value of the difference vector 
 #' \eqn{\boldsymbol{Ax}-\boldsymbol{b}} for equalities. For inequalities, the difference vector
 #' is set to zero when it's value is lesser than zero (i.e. when the restriction is satisfied). The
-#' algorithm iterates until either the epserance is met, the number of allowed iterations is
+#' algorithm iterates until either the tolerance is met, the number of allowed iterations is
 #' exceeded or divergence is detected. 
 #' 
 #' @return
@@ -52,7 +34,7 @@
 #'    \item{3: maximum number of iterations reached}
 #'   }
 #'  }
-#'  \item{\code{eps}: The epserance achieved after optimizing (see Details).}
+#'  \item{\code{eps}: The tolerance achieved after optimizing (see Details).}
 #'  \item{\code{iterations}: The number of iterations performed.}
 #'  \item{\code{duration}: the time it took to compute the adjusted vector}
 #'  \item{\code{objective}: The (weighted) Euclidean distance between the initial and the adjusted vector}
@@ -113,16 +95,16 @@ project <- function(x,A,b, neq=length(b), w=rep(1.0,length(x)), eps=1e-2, maxite
 #' @param b \code{[numeric]} Constant vector of the system \eqn{Ax\leq b}
 #' @param neq \code{[integer]} Number of equalities
 #' @param w \code{[numeric]} weight vector of same length of \code{x}
-#' @param eps maximally allowed epserance
+#' @param eps maximally allowed tolerance
 #' @param maxiter maximally allowed number of iterations.
 #' @param ... extra parameters passed to \code{\link{sparseConstraints}}
 #'
 #' @section Details:
 #'
-#' The epserance \code{eps} is defined as the maximum absolute value of the difference vector 
+#' The tolerance \code{eps} is defined as the maximum absolute value of the difference vector 
 #' \eqn{\boldsymbol{Ax}-\boldsymbol{b}} for equalities. For inequalities, the difference vector
 #' is set to zero when it's value is lesser than zero (i.e. when the restriction is satisfied). The
-#' algorithm iterates until either the epserance is met, the number of allowed iterations is
+#' algorithm iterates until either the tolerance is met, the number of allowed iterations is
 #' exceeded or divergence is detected. 
 #' 
 #' @return
@@ -137,7 +119,7 @@ project <- function(x,A,b, neq=length(b), w=rep(1.0,length(x)), eps=1e-2, maxite
 #'    \item{3: maximum number of iterations reached}
 #'   }
 #'  }
-#'  \item{\code{eps}: The epserance achieved after optimizing (see Details).}
+#'  \item{\code{eps}: The tolerance achieved after optimizing (see Details).}
 #'  \item{\code{iterations}: The number of iterations performed.}
 #'  \item{\code{duration}: the time it took to compute the adjusted vector}
 #'  \item{\code{objective}: The (weighted) Euclidean distance between the initial and the adjusted vector}

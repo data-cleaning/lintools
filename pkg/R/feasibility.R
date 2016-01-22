@@ -60,9 +60,9 @@ has_contradiction <- function(A,b, neq, nleq, eps){
 #' @param eps [\code{numeric}] Absolute values \code{< eps} are treated as zero.
 #' @param method [\code{character}] At the moment, only the 'elimination' method is implemented.
 #'
-#' @export
 #' 
 #' @examples 
+#' # An infeasible system:
 #' # x + y == 0
 #' # x > 0
 #' # y > 0
@@ -70,6 +70,15 @@ has_contradiction <- function(A,b, neq, nleq, eps){
 #' b <- rep(0,3)
 #' is_feasible(A=A,b=b,neq=1,nleq=0)
 #' 
+#' # A feasible system:
+#' # x + y == 0
+#' # x >= 0
+#' # y >= 0
+#' A <- matrix(c(1,1,1,0,0,1),byrow=TRUE,nrow=3)
+#' b <- rep(0,3)
+#' is_feasible(A=A,b=b,neq=1,nleq=2)
+#' 
+#' @export
 is_feasible <- function(A, b, neq=nrow(A), nleq=0, eps=1e-8, method="elimination"){
   # check before compact, because that also removes tautologies.
   if ( has_contradiction(A=A, b=b, neq=neq, nleq=nleq, eps=eps) ) return(FALSE)
