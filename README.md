@@ -62,10 +62,13 @@ the convex polytope described by the restrictions.
 
 ### Installation
 
-This package is under development and not on CRAN yet. You can install the
-latest beta version from our
-[drat](https://cran.rstudio.com/web/packages/drat/index.html) repo as follows
-(first install `drat` if you don't already have it).
+To install the latest CRAN version, open an R session and type
+```
+install.packages("lintools")
+```
+To get the latest beta version from our
+[drat](https://cran.rstudio.com/web/packages/drat/index.html) repo
+(first install `drat` if you don't already have it):
 ```
 drat::addRepo("data-cleaning")
 install.packages("lintools")
