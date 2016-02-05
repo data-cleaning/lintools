@@ -18,3 +18,10 @@ test_that("Computing pseudoinverse",{
   expect_equal(pinv(A),Aplus55/55)
 })
 
+test_that("bugfixes",{
+  # this crashed because there's only one s.v. and 'diag' 
+  # reacts differently when presented a single number.
+  pinv(matrix(c(1,-1,0,0,0)))
+  
+})
+

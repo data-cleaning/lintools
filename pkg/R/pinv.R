@@ -40,7 +40,7 @@ pinv <- function(A, eps=1e-8){
   d <- L$d
   i <- abs(d) > eps
   d[i] <- 1/d[i]
-  L$v %*% diag(d) %*% t(L$u)
+  L$v %*% diag(d, nrow=length(d)) %*% t(L$u)
 }
 
 

@@ -1,4 +1,5 @@
 version 0.1.0.1
+ - bugfix: pinv crashed on matrices with a single s.v. 
  - bugfix: eliminate would sometimes report the wrong number of equalities
  - bugfix: eliminate sometimes crashed because of a mismatch in colnames of history matrix
 
