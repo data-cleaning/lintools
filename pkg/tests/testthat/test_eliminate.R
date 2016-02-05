@@ -14,7 +14,7 @@ test_that("Gaussian elimination",{
   L <- eliminate(A=A,b=b,neq=neq,variable=1)
   expect_equivalent(L$A,matrix(c(0,1,-1)))
   expect_equivalent(L$b,0)
-  expect_equal(L$neq,2)
+  expect_equal(L$neq,1)
   expect_equal(L$nleq,0)
   expect_equal(L$H,NULL)
   expect_equal(L$h,0)
@@ -32,7 +32,7 @@ test_that("Eliminate named variable",{
   L <- eliminate(A=A,b=b,neq=neq,variable='x1')
   expect_equivalent(L$A,matrix(c(0,1,-1)))
   expect_equivalent(L$b,0)
-  expect_equal(L$neq,2)
+  expect_equal(L$neq,1)
   expect_equal(L$nleq,0)
   expect_equal(L$H,NULL)
   expect_equal(L$h,0)
@@ -121,6 +121,10 @@ test_that("elimination with equality and inequalities",{
 
 
 
-
+test_that("bugfixes",{
+  A <- matrix(c(1,1,-1,0,1,0),nrow=2)
+  b <- c(0,0)
+  expect_equal(eliminate(A=A,b = b,neq=2,variable = 1)$neq, 1)
+})
 
 

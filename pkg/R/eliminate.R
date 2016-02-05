@@ -104,7 +104,7 @@ eliminate <- function(A, b, neq=nrow(A), nleq=0, variable, H=NULL, h=0){
     return(list(
       A = Ab[ii,-ncol(Ab), drop=FALSE]
         , b = b[ii]
-        , neq = sum(ii<=neq)
+        , neq = sum(which(ii)<=neq)
         , nleq = nleq
         , H = H
         , h = h
@@ -114,7 +114,7 @@ eliminate <- function(A, b, neq=nrow(A), nleq=0, variable, H=NULL, h=0){
   if ( is.null(H) ){
     H <- matrix(FALSE,nrow=nrow(A),ncol=nrow(A))
     diag(H) <- TRUE 
-    colnames(A) <- rownames(A)
+    colnames(H) <- rownames(A)
   }
   
   

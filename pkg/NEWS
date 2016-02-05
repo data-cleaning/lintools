@@ -1,2 +1,6 @@
+version 0.1.0.1
+ - bugfix: eliminate would sometimes report the wrong number of equalities
+ - bugfix: eliminate sometimes crashed because of a mismatch in colnames of history matrix
+
 version 0.1.0
  - Initial release
