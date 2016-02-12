@@ -1,7 +1,10 @@
 
 #' Derive variable ranges from linear restrictions
 #'
+#' Gaussian and/or Fourier-Motzkin elimination is used 
+#' to derive upper and lower limits implied by a system of (in)equations.
 #' 
+#'   
 #' @param A \code{[numeric]} Matrix 
 #' @param b \code{[numeric]} vector
 #' @param neq [\code{numeric}] The first \code{neq} rows in \code{A} and
