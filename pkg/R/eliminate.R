@@ -24,6 +24,7 @@
 #' inequations of the form \code{a.x<=b}. All remaining rows are treated as strict inequations
 #' of the form \code{a.x<b}.
 #' @param variable \code{[numeric|logical|character]} Index in columns of \code{A}, representing the variable to eliminate.
+#' @param eps \code{[numeric]} Coefficients with absolute value  \code{<= eps} are treated as zero.
 #' @param H \code{[numeric]} (optional) Matrix indicating how linear inequalities have been derived. 
 #' @param h \code{[numeric]} (optional) number indicating how many variables have been eliminated from the original system
 #' using Fourier-Motzkin elimination.
@@ -65,7 +66,7 @@
 #' 
 #' 
 #' @export
-eliminate <- function(A, b, neq=nrow(A), nleq=0, variable, H=NULL, h=0){
+eliminate <- function(A, b, neq=nrow(A), nleq=0, variable, H=NULL, h=0, eps=1e-8){
   check_sys(A=A, b=b, neq=neq)
  
   # TODO: use equality elimination rule.
@@ -82,7 +83,7 @@ eliminate <- function(A, b, neq=nrow(A), nleq=0, variable, H=NULL, h=0){
   ops[neq + seq_len(nleq)] <- "<="
   
   coefs <- Ab[,var]
-  I <- coefs != 0
+  I <- abs(coefs) > eps
   
   eq <- I & seq_len(nrow(A)) <= neq
   
@@ -158,7 +159,7 @@ eliminate <- function(A, b, neq=nrow(A), nleq=0, variable, H=NULL, h=0){
     , operators = o[!redundant]
   ) 
   list(A = L$A, b = L$b, neq=L$neq, nleq=L$nleq, H=H[L$order,,drop=FALSE], h=h)
-  }
+}
 
 
 
