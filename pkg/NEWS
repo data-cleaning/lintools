@@ -2,7 +2,7 @@ version 0.1.1
  - new function 'ranges' computes variable ranges implied by a system of (in)equations
  - eliminate gains 'eps' argument to control numerical accuracy
  - bugfix: pinv crashed on matrices with a single s.v. 
- - bugfix: eliminate would sometimes report the wrong number of equalities
+ - bugfix: eliminate would sometimes report the wrong number of (in)equalities
  - bugfix: eliminate sometimes crashed because of a mismatch in colnames of history matrix
 
 version 0.1.0

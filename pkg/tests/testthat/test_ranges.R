@@ -28,5 +28,6 @@ test_that("simple cases",{
   expect_equivalent(ranges(A,b,neq=2)
       , array(c(-Inf,2,1,-2,2,1),dim=c(3,2))
   )
+  
 })
 

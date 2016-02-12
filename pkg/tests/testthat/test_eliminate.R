@@ -125,6 +125,14 @@ test_that("bugfixes",{
   A <- matrix(c(1,1,-1,0,1,0),nrow=2)
   b <- c(0,0)
   expect_equal(eliminate(A=A,b = b,neq=2,variable = 1)$neq, 1)
+  
+  A <- matrix(c(
+    0,1,0,
+    0,1,1,
+    1,1,0),byrow=TRUE,nrow=3
+  )
+  b <- c(2,3,0)
+  expect_equal(eliminate(A=A,b=b,neq=2,nleq=1,variable=1)$nleq,0)
 })
 
 

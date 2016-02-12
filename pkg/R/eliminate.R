@@ -101,12 +101,12 @@ eliminate <- function(A, b, neq=nrow(A), nleq=0, variable, H=NULL, h=0, eps=1e-8
     h <- h+1
   } else {
     # return rows and columns where 'var' does not occur
-    ii <- A[,var] == 0
+    ii <- abs(A[,var]) < eps
     return(list(
       A = Ab[ii,-ncol(Ab), drop=FALSE]
         , b = b[ii]
         , neq = sum(which(ii)<=neq)
-        , nleq = nleq
+        , nleq = sum(which(ii)>neq & which(ii)<=neq+nleq)
         , H = H
         , h = h
     ))
