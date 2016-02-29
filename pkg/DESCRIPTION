@@ -10,7 +10,9 @@ Author: c(person("Mark", "van der Loo", role=c("cre","aut"), email="mark.vanderl
 Description:  Variable elimination (Gaussian elimination, Fourier-Motzkin elimination), 
     Moore-Penrose pseudoinverse, reduction to reduced row echelon form, value substitution,  
     projecting a vector on the convex polytope described by a system of (in)equations, 
-    removing spurious columns and rows and collapse implied equalities.
+    simplify systems by removing spurious columns and rows and collapse implied equalities, 
+    test if a matrix is totally unimodilar, compute variable ranges implied by linear
+    (in)equalities.
 Version: 0.1.1.0
 URL: https://github.com/data-cleaning/lintools
 BugReports: https://github.com/data-cleaning/lintools/issues

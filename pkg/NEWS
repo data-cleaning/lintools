@@ -1,4 +1,5 @@
-version 0.1.1
+version 0.1.1.0
+ - new function 'is_totally_unimodular'
  - new function 'ranges' computes variable ranges implied by a system of (in)equations
  - eliminate gains 'eps' argument to control numerical accuracy
  - bugfix: pinv crashed on matrices with a single s.v. 
