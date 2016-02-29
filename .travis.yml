@@ -6,6 +6,8 @@ cache: packages
 
 before_install:
   - cd ./pkg
+  - curl -i https://api.github.com/repos/jimhester/covr/zipball/master
+
 
 r_github_packages:
   - jimhester/covr
