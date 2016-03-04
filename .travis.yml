@@ -5,6 +5,7 @@ language: r
 cache: packages
 
 before_install:
+  - R -e "install.packages(c('devtools','roxygen2'))"
   - R -e "devtools::document('pkg')"
   - cd ./pkg
 
