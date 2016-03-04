@@ -21,7 +21,7 @@ page](https://github.com/data-cleaning/lintools/issues).
 
 #### Compactifying
 
-Remove spurious rows and columns. Combine inequations of the form
+Simplify sets of equations by removing spurious rows and columns and combining inequations of the form
 ```
 a.x >= 0
 a.x <= 0
@@ -58,6 +58,10 @@ Check whether a system of linear (in)equations has any solution.
 Given a vector not satisfying a set of (in)equations, project it onto
 the convex polytope described by the restrictions.
 
+#### Test for total unimodularity
+
+Given a system of equalities `A.x=b`, there exist integer solutions `x` iff `A` and `b` are integer and `A` is
+[totally unimodular](https://en.wikipedia.org/wiki/Unimodular_matrix).
 
 
 ### Installation
