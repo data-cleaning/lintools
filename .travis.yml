@@ -5,6 +5,7 @@ language: r
 cache: packages
 
 before_install:
+  - R -e "devtools::document('pkg')"
   - cd ./pkg
 
 r_packages:
