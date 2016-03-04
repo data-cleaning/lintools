@@ -9,6 +9,7 @@ before_install:
 
 r_packages:
   - covr
+  - rmarkdown
 
 
 after_success:
