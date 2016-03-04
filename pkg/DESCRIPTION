@@ -5,8 +5,7 @@ Title: Manipulation of Linear Systems of (in)Equalities
 LazyData: no
 Type: Package
 LazyLoad: yes
-Author: c(person("Mark", "van der Loo", role=c("aut","cre"), email="mark.vanderloo@gmail.com") 
-        , person("Edwin", "de Jonge", role="aut"))
+Authors@R: c(person("Mark", "van der Loo", role=c("aut","cre"), email="mark.vanderloo@gmail.com") , person("Edwin", "de Jonge", role="aut"))
 Description:  Variable elimination (Gaussian elimination, Fourier-Motzkin elimination), 
     Moore-Penrose pseudoinverse, reduction to reduced row echelon form, value substitution,  
     projecting a vector on the convex polytope described by a system of (in)equations, 
