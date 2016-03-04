@@ -27,6 +27,7 @@
 #'
 #' @name lintools
 #' @useDynLib lintools
+#' @importFrom utils combn
 #' @docType package
 #' 
 {}

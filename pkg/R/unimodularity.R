@@ -71,13 +71,14 @@ is_totally_unimodular <- function(A) {
 #' @param A An object of class matrix in \eqn{\{-1,0,1\}^{m\times n}}. 
 #' @return The reduction of A.
 #' @seealso \code{\link{is_totally_unimodular}}
-#'
+#' 
 #' @references
 #'
 #' Scholtus S (2008). Algorithms for correcting some obvious
 #' inconsistencies and rounding errors in business survey data. Technical
 #' Report 08015, Netherlands.
 #'
+#' @keywords internal
 reduceMatrix <- function(A){
     d1 <- c(0,0)
     d <- dim(A)
@@ -141,11 +142,12 @@ allTotallyUnimodular <- function(L){
 
 #' Determine if a matrix is unimodular using recursive Raghavachari criterium
 #' 
-#' This function is \code{deducorrect} internal
+#' This function is \code{lintools} internal
 #'
 #' @param A An object of class Matrix in \eqn{\{-1,0,1\}^{m\times n}}. 
 #' @return \code{TRUE} or \code{FALSE}
 #' @seealso \code{\link{is_totally_unimodular}}
+#' @keywords internal
 raghavachari <- function(A){
     J <- colSums(abs(A))>=2
     j <- which.max(colSums(abs(A[ ,J,drop=FALSE])))

@@ -97,7 +97,7 @@ project <- function(x,A,b, neq=length(b), w=rep(1.0,length(x)), eps=1e-2, maxite
 #' @param w \code{[numeric]} weight vector of same length of \code{x}
 #' @param eps maximally allowed tolerance
 #' @param maxiter maximally allowed number of iterations.
-#' @param ... extra parameters passed to \code{\link{sparseConstraints}}
+#' @param ... extra parameters passed to \code{\link{sparse_constraints}}
 #'
 #' @section Details:
 #'
@@ -124,13 +124,13 @@ project <- function(x,A,b, neq=length(b), w=rep(1.0,length(x)), eps=1e-2, maxite
 #'  \item{\code{duration}: the time it took to compute the adjusted vector}
 #'  \item{\code{objective}: The (weighted) Euclidean distance between the initial and the adjusted vector}
 #' }
-#' @seealso \code{\link{project}}, \code{\link{sparseConstraints}}
+#' @seealso \code{\link{project}}, \code{\link{sparse_constraints}}
 #'
 #' @example ../examples/sparse_project.R
 #' @export
 sparse_project <- function(x, A, b, neq=length(b)
     , w=rep(1.0,length(x)), eps=1e-2, maxiter=1000L,...){
-  sc <- sparseConstraints(object=A,b=b,neq=neq,...)
+  sc <- sparse_constraints(object=A,b=b,neq=neq,...)
   sc$project(x=x, w=w, eps=eps, maxiter = maxiter)
 }
 

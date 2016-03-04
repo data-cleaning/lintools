@@ -3,14 +3,18 @@
 #' Generate a constraint set to be used by \code{\link{sparse_project}}
 #'
 #'
-#' @param object R object to be translated to sparseConstraints format.
+#' @param object R object to be translated to sparse_constraints format.
 #' @param ... options to be passed to other methods
 #'
-#' @return Object of class \code{sparseConstraints} (see details).
+#' @return Object of class \code{sparse_constraints} (see details).
 #' 
+#' @section Note:
+#' 
+#' As of version 0.1.1.0, \code{sparseConstraints} is deprecated. Use \code{sparse_constraints} instead.
+#'
 #' @section Details:
 #' 
-#' The \code{sparseConstraints} objects holds coefficients of
+#' The \code{sparse_constraints} objects holds coefficients of
 #' \eqn{\boldsymbol{A}} and \eqn{\boldsymbol{b}} of the system
 #' \eqn{\boldsymbol{Ax}\leq \boldsymbol{b}} in sparse format, outside of
 #' \code{R}'s memory. It can be reused to find solutions for vectors to adjust.
@@ -19,12 +23,12 @@
 #' \itemize{
 #'    \item{Copy the object. You only will only generate a pointer to physically the same object.}
 #'    \item{Save the object. The physical object is destroyed when \code{R} closes, or when \code{R}'s
-#'      garbage collector cleans up a removed \code{sparseConstraints} object.}
+#'      garbage collector cleans up a removed \code{sparse_constraints} object.}
 #' }
 #'
 #' @section The \code{$project} method:
 #' 
-#' Once a \code{sparseConstraints} object \code{sc} is created, you can reuse it to optimize
+#' Once a \code{sparse_constraints} object \code{sc} is created, you can reuse it to optimize
 #' several vectors by calling \code{sc$project()} with the following parameters:
 #' \itemize{
 #'   \item{\code{x}: \code{[numeric]} the vector to be optimized}
@@ -36,23 +40,30 @@
 #' 
 #' @seealso \code{\link{sparse_project}}, \code{\link{project}}
 #' @export
-#' @example ../examples/sparseConstraints.R
-sparseConstraints = function(object, ...){
-  UseMethod("sparseConstraints")
+#' @example ../examples/sparse_constraints.R
+sparse_constraints <- function(object, ...){
+  UseMethod("sparse_constraints")
+}
+
+#' @rdname sparse_constraints
+#' @export
+sparseConstraints <- function(object,...){
+  .Deprecated("sparse_constraints")
+  sparse_constraints(object,...)
 }
 
 
 #' Read sparse constraints from a \code{data.frame}
 #' 
-#' @method sparseConstraints data.frame
+#' @method sparse_constraints data.frame
 #'
 #' @param b Constant vector
 #' @param neq The first \code{new} equations are interpreted as equality constraints, the rest as '<='
 #' @param base are the indices in \code{object[,1:2]} base 0 or base 1?
 #' @param sorted is \code{object} sorted by the  first column?
 #' @export
-#' @rdname sparseConstraints
-sparseConstraints.data.frame <- function(object, b, neq=length(b), base=1L, sorted=FALSE, ...){
+#' @rdname sparse_constraints
+sparse_constraints.data.frame <- function(object, b, neq=length(b), base=1L, sorted=FALSE, ...){
 
   if (length(b) != length(unique(object[,1]))){
     stop("length of b unequal to number of constraints")
@@ -89,14 +100,14 @@ sparseConstraints.data.frame <- function(object, b, neq=length(b), base=1L, sort
 
 
 
-#' Print sparseConstraints object
+#' Print sparse_constraints object
 #' 
-#' @method print sparseConstraints
+#' @method print sparse_constraints
 #' @param range integer vector stating which constraints to print
-#' @param x an object of class \code{sparseConstraints}
+#' @param x an object of class \code{sparse_constraints}
 #' @export
-#' @rdname sparseConstraints
-print.sparseConstraints <- function(x, range=1L:10L, ...){
+#' @rdname sparse_constraints
+print.sparse_constraints <- function(x, range=1L:10L, ...){
    x$.print()
 }
 
@@ -182,7 +193,7 @@ make_sc <- function(e){
   }
   
   
-  structure(e,class="sparseConstraints")
+  structure(e,class="sparse_constraints")
 }
 
 

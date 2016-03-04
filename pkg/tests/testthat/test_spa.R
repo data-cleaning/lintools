@@ -41,14 +41,14 @@ test_that("sparse_project",{
   expect_equal(sparse_project(c(-1,-1),A=A,b=b,neq=0)$objective, sqrt(2))
 })
 
-test_that("sparseConstraints object",{
+test_that("sparse_constraints object",{
   A <- data.frame(
     row = c(1,1,2,2,3,3)
     ,col=c(1,2,1,2,1,2)
     ,coef=c(1,1,-1,0,0,-1)
   )
   b<-c(1,0,0)
-  sc <- sparseConstraints(A,b,neq=1)
+  sc <- sparse_constraints(A,b,neq=1)
   expect_equal(sc$.nvar(), 2)
   expect_equal(sc$.nconstr(), 3)
   x <- c(1,-2)

@@ -175,9 +175,9 @@ of optimizations it may pay to do it once and reuse the representation.
 This can be done as follows, using the same definition of sparse constraints as in the 
 previous subsection.
 
-First, create an object of class `sparseConstraints`.
+First, create an object of class `sparse_constraints`.
 ```{r}
-sc <- sparseConstraints(A,b,neq=0)
+sc <- sparse_constraints(A,b,neq=0)
 ```
 
 Now, using its `project` method, we can optimize from multiple starting points, for example:
@@ -206,7 +206,7 @@ Statistics Netherlands.
 
 ## Some words on the rspa package
 Users of the `rspa` package will no doubt recognize the algorithm and the
-`sparseConstraints` object. We chose to separate the functionality from `rspa`
+`sparse_constraints` object. We chose to separate the functionality from `rspa`
 to be able to reuse the successive projection algorithm for multiple purposes,
 without depending on the `editrules` package. In the future, `rspa` will depend
 on `lintools` with guaranteed backward compatibility.

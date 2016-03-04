@@ -14,7 +14,7 @@ A <- data.frame(
 )
 b <- c(-950, -950, 0,0) 
 
-sc <- sparseConstraints(A, b, neq=3)
+sc <- sparse_constraints(A, b, neq=3)
 
 # Adjust the 0-vector minimally so all constraints are met:
 sc$project(x=rep(0,8))

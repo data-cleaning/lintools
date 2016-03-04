@@ -1,7 +1,8 @@
 version 0.1.1.0
  - new function 'is_totally_unimodular'
  - new function 'ranges' computes variable ranges implied by a system of (in)equations
- - eliminate gains 'eps' argument to control numerical accuracy
+ - eliminate gains argument 'eps' to control numerical accuracy
+ - deprecated sparseConstraints in favor of the more consistent name sparse_constraints
  - bugfix: pinv crashed on matrices with a single s.v. 
  - bugfix: eliminate would sometimes report the wrong number of (in)equalities
  - bugfix: eliminate sometimes crashed because of a mismatch in colnames of history matrix
