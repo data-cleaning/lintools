@@ -1,4 +1,6 @@
-version 0.1.1.0
+version 0.1.1.2
+
+version 0.1.1.1
  - new function 'is_totally_unimodular'
  - new function 'ranges' computes variable ranges implied by a system of (in)equations
  - eliminate gains argument 'eps' to control numerical accuracy
