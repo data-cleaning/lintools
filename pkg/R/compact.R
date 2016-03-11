@@ -76,16 +76,17 @@ compact <- function(A, b, x=NULL, neq=nrow(A), nleq=0, eps=1e-8
   }
   
   ineqs <- neq + seq_len(nleq)
-  if (implied_equations && length(ineqs) > 0 ){
-    Ab <- cbind(A[ineqs,,drop=FALSE])
+  # NOTE. When A has zero columns, then Ab/bi is coerced to numeric(0) causing rep(...) to fail.
+  if (implied_equations && length(ineqs) > 0 && ncol(A) > 0){
+    Ab <- A[ineqs,,drop=FALSE]
     
     # 
     bi <- abs(b[ineqs])
     bi[bi < eps] <- 1  # avoid dividing by zero
     Ab <- Ab/bi        # normalize coefficients
     # compare all rows (avoid redundancies)
-    I <- rep(seq_len(nleq),times=nrow(A))
-    J <- rep(seq_len(nleq),each=nrow(A))
+    I <- rep(seq_len(nleq),times=nrow(Ab))
+    J <- rep(seq_len(nleq),each=nrow(Ab))
     ii <- I < J
     I <- I[ii]
     J <- J[ii]

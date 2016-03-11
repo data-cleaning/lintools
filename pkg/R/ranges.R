@@ -23,7 +23,7 @@ ranges <- function(A, b, neq=nrow(A), nleq=0, eps=1e-8){
   for ( i in I ){
     L <- eliminate_variables(A=A, b=b, variables=setdiff(I,i), neq=neq, nleq=nleq, eps=eps)
     L <- compact(L$A,L$b,neq=L$neq, nleq=L$nleq, eps=eps)
-    if ( nrow(L$A) == 0 ){ # no restrictions
+    if ( nrow(L$A) == 0 | ncol(L$A) == 0 ){ # no restrictions
       lim <- c(-Inf,Inf) 
     } else if (L$neq > 0){ # at least one equation
       lim <- c(L$b[1]/L$A[1,1], L$b[1]/L$A[1,1])

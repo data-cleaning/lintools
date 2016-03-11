@@ -31,3 +31,23 @@ test_that("simple cases",{
   
 })
 
+test_that("regression tests",{
+  A <- matrix(
+    c( 1, 1, 0,
+      -1, 0, 0,
+       0,-1, 0,
+       0, 0, 0),byrow=TRUE,nrow=4)
+  b <- c(1130,0,0,1130)
+  expect_equivalent(
+    ranges(A = A,b=b,neq=1,nleq=3)
+    , cbind(c(0,0,-Inf),c(1130,1130,Inf))
+  )
+  
+  A <- matrix(0,nrow=2,ncol=3)
+  b <- c(1130,1130)
+  expect_equivalent(
+    ranges(A=A,b=b,neq=0,nleq=2)
+    , cbind(rep(-Inf,3),rep(Inf,3))
+  )
+})
+
