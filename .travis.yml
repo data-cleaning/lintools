@@ -2,7 +2,8 @@
 # travis config
 
 language: r
-cache: packages
+sudo: required
+# cache: packages
 
 addons:
   apt:
