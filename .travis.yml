@@ -4,6 +4,17 @@
 language: r
 cache: packages
 
+addons:
+  apt:
+    packages:
+      - libxml2-dev
+
+r:
+ - release
+ - oldrel
+ - devel
+
+
 before_install:
   - R -e "install.packages(c('devtools','roxygen2'))"
   - R -e "devtools::document('pkg')"
