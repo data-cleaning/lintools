@@ -5,6 +5,10 @@
 # Example code in package build process
 *-Ex.R
 
+# object files
+*.o
+*.so
+
 # RStudio files
 .Rproj.user/
 

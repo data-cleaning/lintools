@@ -24,9 +24,8 @@
 #' Most functions assume a system of (in)equations to be stored in a standard form. The \code{\link{normalize}}
 #' function can bring any system of equations to this form.
 #'
-#'
+#' @useDynLib lintools, .registration=TRUE
 #' @name lintools
-#' @useDynLib lintools
 #' @importFrom utils combn
 #' @docType package
 #' 

@@ -1,5 +1,6 @@
-version 0.1.1.2
+version 0.1.1.3
  - bugfix in ranges. Crashed on some cases where matrices w/zero rows were created.
+ - native routines now registered as requested by CRAN
 
 version 0.1.1.1
  - new function 'is_totally_unimodular'

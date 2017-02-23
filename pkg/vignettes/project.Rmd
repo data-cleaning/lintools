@@ -200,7 +200,7 @@ The method was more recently discussed in the context of restricted imputation m
 
 - Pannekoek, J. and Zhang, L.-C. (2012), Optimal adjustments for inconsistency
 in imputed data. 
-_[Discussion Paper 201219](http://www.cbs.nl/NR/rdonlyres/CA5F7C88-D988-4536-A62C-167AAC546342/0/201219x10pub.pdf)_
+_[Discussion Paper 201219](https://www.cbs.nl/-/media/imported/documents/2012/38/2012-19-x10-pub.pdf)
 Statistics Netherlands.
 
 
