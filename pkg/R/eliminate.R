@@ -107,7 +107,7 @@ eliminate <- function(A, b, neq=nrow(A), nleq=0, variable, H=NULL, h=0, eps=1e-8
         , b = b[ii]
         , neq = sum(which(ii)<=neq)
         , nleq = sum(which(ii)>neq & which(ii)<=neq+nleq)
-        , H = H
+        , H = H[ii,,drop=FALSE]
         , h = h
     ))
   } 
