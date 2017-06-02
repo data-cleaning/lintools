@@ -68,7 +68,8 @@ compact <- function(A, b, x=NULL, neq=nrow(A), nleq=0, eps=1e-8
   
   if ( remove_rows ){
     I <- rowSums(Ai) == 0
-    rows_removed <- (ops != "<" & I & abs(b) < eps ) | (ops == "<" & I & b < -eps)
+    rows_removed <- (ops == "==" & I & abs(b) < eps ) | 
+        (ops %in% c("<","<=") & I & b >= 0)  
     A <- A[!rows_removed,,drop=FALSE]
     b <- b[!rows_removed]
     neq <- neq - sum(ops == "==" & rows_removed)

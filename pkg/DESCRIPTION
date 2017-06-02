@@ -6,7 +6,7 @@ LazyData: no
 Type: Package
 LazyLoad: yes
 Authors@R: c(person("Mark", "van der Loo", role=c("aut","cre"), email="mark.vanderloo@gmail.com") , person("Edwin", "de Jonge", role="aut"))
-Description:  Variable elimination (Gaussian elimination, Fourier-Motzkin elimination), 
+Description: Variable elimination (Gaussian elimination, Fourier-Motzkin elimination), 
     Moore-Penrose pseudoinverse, reduction to reduced row echelon form, value substitution,  
     projecting a vector on the convex polytope described by a system of (in)equations, 
     simplify systems by removing spurious columns and rows and collapse implied equalities, 
@@ -21,4 +21,4 @@ Suggests:
     testthat,
     knitr
 VignetteBuilder: knitr
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

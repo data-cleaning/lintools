@@ -1,5 +1,6 @@
 version 0.1.1.4
  - bugfix in eliminate: faulty update of H matrix led to crashes in some cases.
+ - bugfix in compact: ins some cases the wrong neq was returned.
 
 version 0.1.1.3
  - bugfix in ranges. Crashed on some cases where matrices w/zero rows were created.

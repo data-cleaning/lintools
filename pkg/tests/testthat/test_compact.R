@@ -136,6 +136,11 @@ test_that("earlier bugs",{
   b <- rep(0,3)
   expect_equal(compact(A=A,b=b,neq=1,nleq=2,eps=1e-8)$neq, 1)
   
+  A <- structure(c(0, 0, 0, 0, 0, 0, 1, 0, 0, -1, 0, 0, 1, 0, 0, 0, 
+        -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        , .Dim = c(6L, 6L))
+  b <- c(1130, 0, 75, 0, 0, 18915)
+  expect_equal(compact(A,b,neq=2,nleq=4)$neq,1)
 })
 
 
