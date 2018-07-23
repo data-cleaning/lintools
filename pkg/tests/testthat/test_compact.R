@@ -17,6 +17,17 @@ test_that("column removal, no x",{
   
 })
 
+test_that("neq is computed correctly in case of duplicate rows",{
+  L <- compact(
+      A    = matrix(c(-1,1,1), nrow=3)
+    , b    = matrix(c(-1,1,1), nrow=3)
+    , neq  = 0
+    , nleq = 3
+  )
+  expect_equal(L$neq,1)
+})
+
+
 test_that("column removal, with x",{
   L <- compact(
     A = matrix(c(1,0),nrow=1)

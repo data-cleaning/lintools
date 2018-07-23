@@ -21,6 +21,7 @@
 #' @param eps [\code{numeric}] Anything with absolute value \code{< eps} is considered zero.
 #' @param remove_columns [\code{logical}] Toggle remove spurious columns from \code{A} and variables from \code{x}
 #' @param remove_rows [\code{logical}] Toggle remove spurious rows
+#' @param deduplicate [\code{logical}] Toggle remove duplicate rows
 #' @param implied_equations [\code{logical}] replace cases of \code{a.x<=b} and \code{a.x>=b} with
 #'        \code{a.x==b}.
 #'
@@ -40,7 +41,8 @@
 #'  
 #' @export
 compact <- function(A, b, x=NULL, neq=nrow(A), nleq=0, eps=1e-8
-    , remove_columns=TRUE, remove_rows=TRUE, implied_equations=TRUE){
+    , remove_columns=TRUE, remove_rows=TRUE, deduplicate=TRUE
+    , implied_equations=TRUE){
   check_sys(A=A,b=b,neq=neq,eps=eps) 
  
   if ( nrow(A)==0 | ncol(A)== 0){
@@ -67,6 +69,7 @@ compact <- function(A, b, x=NULL, neq=nrow(A), nleq=0, eps=1e-8
   }
   
   if ( remove_rows ){
+    # remove empty rows
     I <- rowSums(Ai) == 0
     rows_removed <- (ops == "==" & I & abs(b) < eps ) | 
         (ops %in% c("<","<=") & I & b >= 0)  
@@ -76,6 +79,36 @@ compact <- function(A, b, x=NULL, neq=nrow(A), nleq=0, eps=1e-8
     nleq <- nleq - sum(ops=="<=" & rows_removed)
   }
   
+  if ( nrow(A) > 1 && deduplicate ){
+    ops <- rep("<",nrow(A))
+    ops[seq_len(neq)] <- "=="
+    ops[neq+seq_len(nleq)] <- "<="
+    Ab <- cbind(A,b)
+    bi <- abs(b)
+    bi[bi < eps] <- 1
+    Ab <- Ab/bi
+    iops <- c("<" = 1, "==" = 2, "<=" = 3)[ops]
+
+    Ab <- cbind(Ab, iops)
+    # compare all rows (avoid redundancies)
+    I <- rep(seq_len(nrow(Ab)),times=nrow(Ab))
+    J <- rep(seq_len(nrow(Ab)),each=nrow(Ab))
+    ii <- I < J
+    I <- I[ii]
+    J <- J[ii]
+    # find duplicates
+    idup <- rowSums(abs(Ab[I,,drop=FALSE] - Ab[J,,drop=FALSE])) < eps
+    if (any(idup)){
+      dup <- unique(J[idup])
+      ops  <- ops[-dup]
+      A    <- A[-dup,,drop=FALSE]
+      b    <- b[-dup]
+      neq  <- sum(ops == "==")
+      nleq <- sum(ops == "<=")
+    }
+  }
+
+
   ineqs <- neq + seq_len(nleq)
   # NOTE. When A has zero columns, then Ab/bi is coerced to numeric(0) causing rep(...) to fail.
   if (implied_equations && length(ineqs) > 0 && ncol(A) > 0){
@@ -109,7 +142,7 @@ compact <- function(A, b, x=NULL, neq=nrow(A), nleq=0, eps=1e-8
         , b[ineqs[-c(throw,keep)]] # remaining inequalities
         , b[-seq_len(neq+nleq)]    # strict inequalities
       )
-      neq <- neq + length(ieqn)
+      neq <- neq + sum(ieqn)
       nleq <- length(ineqs) - length(throw) - length(keep)
     }
   } 

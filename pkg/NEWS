@@ -1,3 +1,8 @@
+version 0.1.2
+ - 'compact' now removes duplicate rows from linear systems (controlled by 
+   new argument 'deduplicate').
+ - bigfix: in some cases, 'compact' would return the wrong value for 'neq'.
+
 version 0.1.1.4
  - bugfix in 'eliminate': faulty update of H matrix led to crashes in some cases.
  - bugfix in 'compact': ins some cases the wrong neq was returned.
