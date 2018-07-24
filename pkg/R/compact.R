@@ -109,23 +109,25 @@ compact <- function(A, b, x=NULL, neq=nrow(A), nleq=0, eps=1e-8
   }
 
 
-  ineqs <- neq + seq_len(nleq)
   # NOTE. When A has zero columns, then Ab/bi is coerced to numeric(0) causing rep(...) to fail.
-  if (implied_equations && length(ineqs) > 0 && ncol(A) > 0){
-    Ab <- A[ineqs,,drop=FALSE]
+  if (implied_equations && nleq > 1 && ncol(A) > 0){
+    ineqs <- neq + seq_len(nleq)
+    Ai <- A[ineqs,,drop=FALSE]
     
     # 
-    bi <- abs(b[ineqs])
-    bi[bi < eps] <- 1  # avoid dividing by zero
-    Ab <- Ab/bi        # normalize coefficients
+    bn <- abs(b[ineqs])
+    bn[bn < eps] <- 1  # avoid dividing by zero
+    Ai <- Ai/bn        # normalize coefficients
+    bi <- b[ineqs]/bn  # normalize constant vector
     # compare all rows (avoid redundancies)
-    I <- rep(seq_len(nleq),times=nrow(Ab))
-    J <- rep(seq_len(nleq),each=nrow(Ab))
+    I <- rep(seq_len(nleq),times=nrow(Ai))
+    J <- rep(seq_len(nleq),each=nrow(Ai))
     ii <- I < J
     I <- I[ii]
     J <- J[ii]
     # compute implied equations
-    ieqn <- abs( rowSums(Ab[I,,drop=FALSE] + Ab[J,,drop=FALSE]) ) < eps 
+    ieqn <- abs( rowSums(Ai[I,,drop=FALSE] + Ai[J,,drop=FALSE]) ) < eps 
+    ieqn <- ieqn & abs(bi[I]-bi[J]) < eps
     if ( any(ieqn) ){
       keep <-  I[ieqn]
       throw <- J[ieqn]

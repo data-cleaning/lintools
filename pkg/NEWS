@@ -1,7 +1,9 @@
 version 0.1.2
  - 'compact' now removes duplicate rows from linear systems (controlled by 
    new argument 'deduplicate').
- - bigfix: in some cases, 'compact' would return the wrong value for 'neq'.
+ - bugfix: in some cases, 'compact' would return the wrong value for 'neq'.
+ - bugfix in 'compact': cases of differing b_i and b_j, Ai. + Aj. = 0, and both
+   of type '<=' would incorrectly be combined to an equality.
 
 version 0.1.1.4
  - bugfix in 'eliminate': faulty update of H matrix led to crashes in some cases.

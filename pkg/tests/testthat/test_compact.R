@@ -18,9 +18,13 @@ test_that("column removal, no x",{
 })
 
 test_that("neq is computed correctly in case of duplicate rows",{
+  # -x <= 1
+  #  x <= 1
+  #  x <= 1
+  # conclusion: x == 1.
   L <- compact(
       A    = matrix(c(-1,1,1), nrow=3)
-    , b    = matrix(c(-1,1,1), nrow=3)
+    , b    = matrix(c( 1,1,1), nrow=3)
     , neq  = 0
     , nleq = 3
   )
@@ -152,6 +156,26 @@ test_that("earlier bugs",{
         , .Dim = c(6L, 6L))
   b <- c(1130, 0, 75, 0, 0, 18915)
   expect_equal(compact(A,b,neq=2,nleq=4)$neq,1)
+  
 })
+
+test_that("implied equations in presence of equalities",{
+  # a + b - c == 0
+  #         c <= 1
+  #        -c <= 1
+  A <- matrix(c(1,1,-1,0,0,1,0,0,-1),nrow=3,byrow = TRUE)
+  b <- c(0,1,1)
+  L <- compact(A,b,neq=1,nleq=2)
+  expect_equal(L$neq,2)
+  # one redundant equality remains
+  expect_equal(L$A, matrix(c(1,1,-1,0,0,1),nrow=2,byrow=TRUE))
+})
+  
+  
+  
+  
+
+
+
 
 
