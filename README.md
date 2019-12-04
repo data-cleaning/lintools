@@ -70,12 +70,16 @@ To install the latest CRAN version, open an R session and type
 ```
 install.packages("lintools")
 ```
-To get the latest beta version from our
-[drat](https://cran.rstudio.com/web/packages/drat/index.html) repo
-(first install `drat` if you don't already have it):
+
+To install from source:
+
+```bash
+git clone https://github.com/markvanderloo/lintools
+cd lintools
+make install
 ```
-drat::addRepo("data-cleaning")
-install.packages("lintools")
-```
+On the OS that shall not be named you need to install
+[rtools](https://cran.r-project.org/bin/windows/Rtools/) to build a package.
+
 
 
