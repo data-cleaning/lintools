@@ -1,7 +1,7 @@
 
-context("derive variable ranges")
+## derive variable ranges
 
-test_that("simple cases",{
+## simple cases
   
   # x == 1
   A <- matrix(1)
@@ -29,9 +29,8 @@ test_that("simple cases",{
       , array(c(-Inf,2,1,-2,2,1),dim=c(3,2))
   )
   
-})
 
-test_that("regression tests",{
+## regression tests
   A <- matrix(
     c( 1, 1, 0,
       -1, 0, 0,
@@ -49,5 +48,4 @@ test_that("regression tests",{
     ranges(A=A,b=b,neq=0,nleq=2)
     , cbind(rep(-Inf,3),rep(Inf,3))
   )
-})
 

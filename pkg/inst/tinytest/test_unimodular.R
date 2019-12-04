@@ -1,7 +1,7 @@
 
 # Totally unimodular matrix, reduces to nothing
 
-test_that("total unimodularity detection",{
+## total unimodularity detection
   
   A <- matrix(c(
    1,1,0,0,0,
@@ -25,6 +25,5 @@ test_that("total unimodularity detection",{
       1,0,1))
   expect_true(is_totally_unimodular(A))
 
-})
 
 

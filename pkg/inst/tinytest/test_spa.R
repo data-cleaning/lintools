@@ -1,7 +1,7 @@
 
-context("dense project")
+## dense project
 
-test_that("project",{
+## project
   # system:
   # x + y == 1
   # x >  0  ==> -x <= 0
@@ -25,12 +25,11 @@ test_that("project",{
   A <- matrix(c(1,-1),nrow=2)
   b <- matrix(c(-1,0))
   expect_equal(project(0,A,b,neq=0)$status,3)
-})
 
 
-context("sparse project")
+## sparse project
 
-test_that("sparse_project",{
+## sparse_project
   A <- data.frame(
     row = c(1,1,2,2)
     ,col= c(1,2,1,2)
@@ -39,9 +38,8 @@ test_that("sparse_project",{
   b <- c(0,0)
   expect_equal(sparse_project(c(-1,-1),A=A,b=b,neq=0)$x,c(0,0))
   expect_equal(sparse_project(c(-1,-1),A=A,b=b,neq=0)$objective, sqrt(2))
-})
 
-test_that("sparse_constraints object",{
+## sparse_constraints object
   A <- data.frame(
     row = c(1,1,2,2,3,3)
     ,col=c(1,2,1,2,1,2)
@@ -65,7 +63,6 @@ test_that("sparse_constraints object",{
   
   # no-crash test for printing
   capture.output(print(sc))
-})
 
 
 

@@ -1,13 +1,13 @@
 
 
-context("value substitution")
+## value substitution
 
 A <- matrix(1:12,nrow=4)
 b <- rep(1,4)
 
 subst_value(A,b,1,1)
 
-test_that("value substitution",{
+## value substitution
 
   expect_equivalent(
     subst_value(A,b,1,0,remove_columns=TRUE)
@@ -23,4 +23,3 @@ test_that("value substitution",{
     , list(A=A[,2:3],b=b)
   )
   
-})

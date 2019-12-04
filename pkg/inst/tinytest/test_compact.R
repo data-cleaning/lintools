@@ -1,8 +1,8 @@
 
 
-context("compactify linear systems")
+## compactify linear systems
 
-test_that("column removal, no x",{
+## column removal, no x
   L <- compact(
     A = matrix(c(1,0),nrow=1)
     ,b = 1
@@ -15,9 +15,8 @@ test_that("column removal, no x",{
   expect_equal(L$nleq,0)
   expect_equal(L$cols_removed,c(FALSE,TRUE))
   
-})
 
-test_that("neq is computed correctly in case of duplicate rows",{
+## neq is computed correctly in case of duplicate rows
   # -x <= 1
   #  x <= 1
   #  x <= 1
@@ -29,10 +28,9 @@ test_that("neq is computed correctly in case of duplicate rows",{
     , nleq = 3
   )
   expect_equal(L$neq,1)
-})
 
 
-test_that("column removal, with x",{
+## column removal, with x
   L <- compact(
     A = matrix(c(1,0),nrow=1)
     , x = c(2,8)
@@ -46,9 +44,9 @@ test_that("column removal, with x",{
   expect_equal(L$neq,1)
   expect_equal(L$nleq,0)
   expect_equal(L$cols_removed,c(FALSE,TRUE))
-})
 
-test_that("row removal",{
+
+## row removal
   # x + y == 1
   # 0 + 0 == 0
   L <- compact(
@@ -61,9 +59,8 @@ test_that("row removal",{
   expect_equal(L$neq,1)
   expect_equal(L$nleq,0)
   expect_equal(L$cols_removed,c(FALSE,FALSE))
-})
 
-test_that("row removal, case w/nonzero b",{
+## row removal, case w/nonzero b
   L <- compact(
     A = matrix(c(1,1,0,0),nrow=2,byrow=TRUE)
     , b = c(1,2)
@@ -74,10 +71,9 @@ test_that("row removal, case w/nonzero b",{
   expect_equal(L$neq,2)
   expect_equal(L$nleq,0)
   expect_equal(L$cols_removed,c(FALSE,FALSE))
-})
 
 
-test_that("Combine inequalities, simple case",{
+## Combine inequalities, simple case
   # x <= 0
   # x >= 0
   L <- compact(
@@ -91,9 +87,8 @@ test_that("Combine inequalities, simple case",{
  expect_equal(L$neq,1)
  expect_equal(L$nleq,0)
  expect_equal(L$cols_removed,FALSE)
-})
 
-test_that("Combine inequalities, simple case with non-zero b",{
+## Combine inequalities, simple case with non-zero b
   # x <= 3
   # x >= 3
   L <- compact(
@@ -107,10 +102,9 @@ test_that("Combine inequalities, simple case with non-zero b",{
  expect_equal(L$neq,1)
  expect_equal(L$nleq,0)
  expect_equal(L$cols_removed,FALSE)
-})
 
 
-test_that("Combine inequalities, simple case that includes equalities",{
+## Combine inequalities, simple case that includes equalities
   # x + y == 1
   # x <= 3
   # x >= 3
@@ -125,10 +119,9 @@ test_that("Combine inequalities, simple case that includes equalities",{
  expect_equal(L$neq,2)
  expect_equal(L$nleq,0)
  expect_equal(L$cols_removed,c(FALSE,FALSE))
-})
 
 
-test_that("combined inequalities and row removal",{
+##  combined inequalities and row removal
   #  x + y == 1
   #  x + 0 <= 1
   # -x + 0 <= 1
@@ -143,9 +136,8 @@ test_that("combined inequalities and row removal",{
   expect_equal(L$neq,2)
   expect_equal(L$nleq,0)
   expect_equal(L$cols_removed,c(FALSE,FALSE))
-})
 
-test_that("earlier bugs",{
+## earlier bugs
   
   A <- matrix(c(1,1,-1,0,0,-1),byrow=TRUE,nrow=3)
   b <- rep(0,3)
@@ -157,9 +149,8 @@ test_that("earlier bugs",{
   b <- c(1130, 0, 75, 0, 0, 18915)
   expect_equal(compact(A,b,neq=2,nleq=4)$neq,1)
   
-})
 
-test_that("implied equations in presence of equalities",{
+## implied equations in presence of equalities
   # a + b - c == 0
   #         c <= 1
   #        -c <= 1
@@ -169,7 +160,6 @@ test_that("implied equations in presence of equalities",{
   expect_equal(L$neq,2)
   # one redundant equality remains
   expect_equal(L$A, matrix(c(1,1,-1,0,0,1),nrow=2,byrow=TRUE))
-})
   
   
   

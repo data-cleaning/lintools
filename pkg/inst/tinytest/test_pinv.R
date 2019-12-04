@@ -1,7 +1,7 @@
 
-context("Pseudoinverse")
+## Pseudoinverse
 
-test_that("Computing pseudoinverse",{
+## Computing pseudoinverse
  # example from appendix of Schaum's outline (2009) on linear algebra
   A <- matrix(c(
      1,  1, -1,  2,
@@ -16,12 +16,10 @@ test_that("Computing pseudoinverse",{
     ),byrow=TRUE, nrow=4)
 
   expect_equal(pinv(A),Aplus55/55)
-})
 
-test_that("bugfixes",{
+## bugfixes
   # this crashed because there's only one s.v. and 'diag' 
   # reacts differently when presented a single number.
   pinv(matrix(c(1,-1,0,0,0)))
   
-})
 

@@ -1,9 +1,9 @@
-context("variable elimination")
+## variable elimination
 
 
 
 
-test_that("Gaussian elimination",{
+## Gaussian elimination
   A <- matrix(c(
     1,1,-1
     ,0,1,-1),byrow=TRUE,nrow=2
@@ -18,9 +18,9 @@ test_that("Gaussian elimination",{
   expect_equal(L$nleq,0)
   expect_equal(L$H,NULL)
   expect_equal(L$h,0)
-})
 
-test_that("Eliminate named variable",{
+
+## Eliminate named variable
   A <- matrix(c(
      1,1,-1
     ,0,1,-1),byrow=TRUE,nrow=2
@@ -36,11 +36,8 @@ test_that("Eliminate named variable",{
   expect_equal(L$nleq,0)
   expect_equal(L$H,NULL)
   expect_equal(L$h,0)
-})
 
-
-
-test_that("Fourier-Motzkin elimination",{
+## Fourier-Motzkin elimination
   
   A <- matrix(c(
     4, -5, -3,  1,
@@ -92,10 +89,8 @@ test_that("Fourier-Motzkin elimination",{
   expect_equal(L$H,matrix(c(TRUE,TRUE),nrow=1))
   expect_equal(L$h,1)
   
-})
 
-
-test_that("elimination with equality and inequalities",{
+## elimination with equality and inequalities
   
   A <- matrix(c(
      1,   1,  -1,
@@ -117,11 +112,10 @@ test_that("elimination with equality and inequalities",{
   )
   expect_equal(L$h,1)
   
-})
 
 
 
-test_that("bugfixes",{
+## bugfixes
   A <- matrix(c(1,1,-1,0,1,0),nrow=2)
   b <- c(0,0)
   expect_equal(eliminate(A=A,b = b,neq=2,variable = 1)$neq, 1)
@@ -133,6 +127,5 @@ test_that("bugfixes",{
   )
   b <- c(2,3,0)
   expect_equal(eliminate(A=A,b=b,neq=2,nleq=1,variable=1)$nleq,0)
-})
 
 
