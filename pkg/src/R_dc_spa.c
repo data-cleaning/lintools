@@ -5,13 +5,6 @@
 
 SEXP R_dc_solve(SEXP A, SEXP b, SEXP w, SEXP neq, SEXP tol, SEXP maxiter, SEXP x){
    
-   PROTECT(A);
-   PROTECT(b);
-   PROTECT(w);
-   PROTECT(neq);
-   PROTECT(tol);
-   PROTECT(maxiter);
-   PROTECT(x);
 
    SEXP dim;
    double *xx = REAL(x);
@@ -59,7 +52,7 @@ SEXP R_dc_solve(SEXP A, SEXP b, SEXP w, SEXP neq, SEXP tol, SEXP maxiter, SEXP x
    setAttrib(tx, install("niter"), niter);
    setAttrib(tx, install("tol"), eps);
 
-   UNPROTECT(12);
+   UNPROTECT(5);
    return tx;
 }
 

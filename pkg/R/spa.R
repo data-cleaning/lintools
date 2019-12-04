@@ -66,7 +66,8 @@ project <- function(x,A,b, neq=length(b), w=rep(1.0,length(x)), eps=1e-2, maxite
     as.integer(neq),
     as.double(eps),
     as.integer(maxiter),
-    as.double(x)
+    as.double(x),
+    PACKAGE="lintools"
   )
   
   t1 <- proc.time()

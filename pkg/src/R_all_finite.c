@@ -3,7 +3,7 @@
 #include <Rdefines.h>
 
 SEXP all_finite_double(SEXP x){
-   PROTECT(x);
+
    double *xx = REAL(x);
 
    SEXP y;
@@ -17,7 +17,7 @@ SEXP all_finite_double(SEXP x){
 
    
    LOGICAL(y)[0] = b;
-   UNPROTECT(2);
+   UNPROTECT(1);
 
    return y; 
 }

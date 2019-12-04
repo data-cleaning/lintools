@@ -91,7 +91,8 @@ sparse_constraints.data.frame <- function(object, b, neq=length(b), base=1L, sor
       as.integer(object[,2]-base),
       as.double(object[,3]), 
       as.double(b),
-      as.integer(neq)
+      as.integer(neq),
+      PACKAGE = "lintools"
    )
    make_sc(e)
 
@@ -120,11 +121,11 @@ make_sc <- function(e){
   }
   
   e$.nvar <- function(){
-    .Call("R_get_nvar", e$.sc)
+    .Call("R_get_nvar", e$.sc, PACKAGE="lintools")
   }
   
   e$.nconstr <- function(){
-    .Call("R_get_nconstraints", e$.sc)
+    .Call("R_get_nconstraints", e$.sc, PACKAGE="lintools")
   }
   
   e$.print <- function(range){
@@ -136,7 +137,8 @@ make_sc <- function(e){
     stopifnot(all(range >= 1))
     range = range-1;
   
-    dump <- .Call("R_print_sc",e$.sc, vars, as.integer(range))
+    dump <- .Call("R_print_sc",e$.sc, vars, as.integer(range), 
+                  PACKAGE="lintools")
   }
 
   # adjust input vector minimally to meet restrictions.
@@ -153,7 +155,8 @@ make_sc <- function(e){
        as.double(x), 
        as.double(w), 
        as.double(eps), 
-       as.integer(maxiter)
+       as.integer(maxiter),
+       PACKAGE = "lintools"
     )
     t1 <- proc.time()
     objective <- sqrt(sum((x-as.vector(y))^2*w))
@@ -174,22 +177,22 @@ make_sc <- function(e){
 
   e$.diffsum <- function(x){
     stopifnot(length(x)==e$.nvar())
-    .Call("R_sc_diffsum", e$.sc, as.double(x)) 
+    .Call("R_sc_diffsum", e$.sc, as.double(x), PACKAGE="lintools") 
   }
   
   e$.diffmax <- function(x){
     stopifnot(length(x)==e$.nvar())
-    .Call("R_sc_diffmax", e$.sc, as.double(x)) 
+    .Call("R_sc_diffmax", e$.sc, as.double(x), PACKAGE="lintools") 
   }
   
   e$.multiply <- function(x){
     stopifnot(length(x) == e$.nvar());
-    .Call("R_sc_multvec", e$.sc, as.double(x))
+    .Call("R_sc_multvec", e$.sc, as.double(x), PACKAGE="lintools")
   }
   
   e$.diffvec <- function(x){
     stopifnot(length(x) == e$.nvar())
-    .Call("R_sc_diffvec", e$.sc, as.double(x))
+    .Call("R_sc_diffvec", e$.sc, as.double(x), PACKAGE="lintools")
   }
   
   

@@ -50,9 +50,6 @@ static void R_print_sc_row(SparseConstraints *x, int i, SEXP names){
 
 SEXP R_print_sc(SEXP p, SEXP names, SEXP printrange){
 
-   PROTECT(p);
-   PROTECT(names);
-   PROTECT(printrange);
    int *pr = INTEGER(printrange);
    int nn=0, npr = length(printrange);
 
@@ -77,28 +74,25 @@ SEXP R_print_sc(SEXP p, SEXP names, SEXP printrange){
      R_print_sc_row(xp, pr[i], names); 
    }
 
-   UNPROTECT(3);
    return R_NilValue;
 }
 
 
 SEXP R_get_nvar(SEXP p){
-   PROTECT(p);
    SparseConstraints *xp = R_ExternalPtrAddr(p);
    SEXP out; 
    PROTECT(out = allocVector(INTSXP,1));
    INTEGER(out)[0] = xp->nvar;
-   UNPROTECT(2);
+   UNPROTECT(1);
    return out;
 }
 
 SEXP R_get_nconstraints(SEXP p){
-   PROTECT(p);
    SparseConstraints *xp = R_ExternalPtrAddr(p);
    SEXP out; 
    PROTECT(out = allocVector(INTSXP,1));
    INTEGER(out)[0] = xp->nconstraints;
-   UNPROTECT(2);
+   UNPROTECT(1);
    return out;
 }
 
@@ -106,11 +100,6 @@ SEXP R_get_nconstraints(SEXP p){
 
 // Create ragged array (sparse) representation from row-col-coefficient-b representation.
 SEXP R_sc_from_sparse_matrix(SEXP rows, SEXP cols, SEXP coef, SEXP b, SEXP neq ){
-   PROTECT(rows);
-   PROTECT(cols);
-   PROTECT(coef);
-   PROTECT(b);
-   PROTECT(neq);
 
    SparseConstraints *E;
 
@@ -130,7 +119,7 @@ SEXP R_sc_from_sparse_matrix(SEXP rows, SEXP cols, SEXP coef, SEXP b, SEXP neq )
    PROTECT(ptr);
    R_RegisterCFinalizerEx(ptr, R_sc_del, TRUE);
 
-   UNPROTECT(6);
+   UNPROTECT(1);
 
    return ptr;
 } 

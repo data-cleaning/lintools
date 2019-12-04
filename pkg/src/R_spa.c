@@ -7,11 +7,6 @@
 
 SEXP R_solve_sc_spa(SEXP p, SEXP x, SEXP w, SEXP tol, SEXP maxiter){
 
-   PROTECT(p);
-   PROTECT(x);
-   PROTECT(w);
-   PROTECT(tol);
-   PROTECT(maxiter);
    SEXP niter, eps, status;
    SparseConstraints *xp = R_ExternalPtrAddr(p);
     
@@ -41,7 +36,7 @@ SEXP R_solve_sc_spa(SEXP p, SEXP x, SEXP w, SEXP tol, SEXP maxiter){
    setAttrib(tx,install("tol"), eps);
    setAttrib(tx,install("status"), status);
 
-   UNPROTECT(9);
+   UNPROTECT(4);
    return tx;
 }
 
