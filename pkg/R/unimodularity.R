@@ -32,7 +32,7 @@ is_totally_unimodular <- function(A) {
     
     # A matrix with elements not in {-1,0,1} cannot be totally unimodular.
     if ( !all(A %in% c(-1,0,1)) ){
-        value <- FALSE
+        return(FALSE)
     }
 
     # After reduction, A has no rows or columns containing less than 2 elements.
@@ -116,7 +116,7 @@ hellerTompkins <- function(A){
         for ( i in 1:ncol(I)){
             M1 <- A[I[ , i], ,drop=FALSE]
             M2 <- A[-I[ , i], ,drop=FALSE]
-            if ( !any(abs(colSums(M1)) == 2) && !any(abs(colSums(M2)) == 2) ){
+            if ( !any(abs(rowSums(M1)) == 2) && !any(abs(rowSums(M2)) == 2) ){
                 return(TRUE)
             }
         }
