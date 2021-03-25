@@ -163,6 +163,10 @@
   
 
 ## implied equations, nonzero coefficients.
+#   x <=  0
+#  -x >=  0
+#   y <=  1
+#  -y <= -1
 A <- matrix(c(1,0, -1,0, 0,1, 0,-1),nrow=4,byrow=TRUE)
 b <- c(0,0,1,-1) 
 L <- compact(A,b,neq=0, nleq=4)  
