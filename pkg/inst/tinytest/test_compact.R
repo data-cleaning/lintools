@@ -17,13 +17,13 @@
   
 
 ## neq is computed correctly in case of duplicate rows
-  # -x <= 1
-  #  x <= 1
-  #  x <= 1
+  # -x <= -1
+  #  x <=  1
+  #  x <=  1
   # conclusion: x == 1.
   L <- compact(
       A    = matrix(c(-1,1,1), nrow=3)
-    , b    = matrix(c( 1,1,1), nrow=3)
+    , b    = matrix(c(-1,1,1), nrow=3)
     , neq  = 0
     , nleq = 3
   )
@@ -93,7 +93,7 @@
   # x >= 3
   L <- compact(
     A=matrix(c(1,-1))
-    , b=c(3,3)
+    , b=c(3,-3)
     , neq=0
     , nleq=2
     )
@@ -109,8 +109,8 @@
   # x <= 3
   # x >= 3
   L <- compact(
-    A=matrix(c(1,1,1,0,-1,0),nrow=3,byrow=TRUE)
-    , b=c(1,3,3)
+    A=matrix(c(1,1, 1,0, -1,0),nrow=3,byrow=TRUE)
+    , b=c(1,3,-3)
     , neq=1
     , nleq=2
     )
@@ -122,13 +122,13 @@
 
 
 ##  combined inequalities and row removal
-  #  x + y == 1
-  #  x + 0 <= 1
-  # -x + 0 <= 1
-  #  0 + 0 <=0
+  #  x + y ==  1
+  #  x + 0 <=  1
+  # -x + 0 <= -1
+  #  0 + 0 <=  0
   L <- compact(
-    A = matrix(c(1,1,1,0,-1,0,0,0),nrow=4,byrow=TRUE)
-    , b = c(1,1,1,0)
+    A = matrix(c(1,1, 1,0, -1,0, 0,0),nrow=4,byrow=TRUE)
+    , b = c(1,1,-1,0)
     , neq = 1
     , nleq = 3
   )
@@ -153,18 +153,22 @@
 ## implied equations in presence of equalities
   # a + b - c == 0
   #         c <= 1
-  #        -c <= 1
-  A <- matrix(c(1,1,-1,0,0,1,0,0,-1),nrow=3,byrow = TRUE)
-  b <- c(0,1,1)
+  #        -c <= -1
+  A <- matrix(c(1,1,-1, 0,0,1, 0,0,-1),nrow=3,byrow = TRUE)
+  b <- c(0,1,-1)
   L <- compact(A,b,neq=1,nleq=2)
   expect_equal(L$neq,2)
   # one redundant equality remains
   expect_equal(L$A, matrix(c(1,1,-1,0,0,1),nrow=2,byrow=TRUE))
   
-  
-  
-  
 
+## implied equations, nonzero coefficients.
+A <- matrix(c(1,0, -1,0, 0,1, 0,-1),nrow=4,byrow=TRUE)
+b <- c(0,0,1,-1) 
+L <- compact(A,b,neq=0, nleq=4)  
+expect_equal(L$neq,2)
+expect_equal(L$A, diag(2))
+expect_equal(L$b, c(0,1))
 
 
 

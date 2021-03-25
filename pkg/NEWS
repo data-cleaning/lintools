@@ -1,4 +1,5 @@
 version 0.1.3
+ - Fix in 'compact': pairs of inequations were not detected correctly.
  - Updated uses of .Call to include PACKAGE="lintools" (thanks to Harm Jan Boonstra)
  - Switched to the 'tinytest' testing framework
 

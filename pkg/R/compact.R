@@ -127,7 +127,7 @@ compact <- function(A, b, x=NULL, neq=nrow(A), nleq=0, eps=1e-8
     J <- J[ii]
     # compute implied equations
     ieqn <- abs( rowSums(Ai[I,,drop=FALSE] + Ai[J,,drop=FALSE]) ) < eps 
-    ieqn <- ieqn & abs(bi[I]-bi[J]) < eps
+    ieqn <- ieqn & abs(bi[I]+bi[J]) < eps
     if ( any(ieqn) ){
       keep <-  I[ieqn]
       throw <- J[ieqn]
