@@ -1,11 +1,10 @@
 #' Tools for manipulating linear systems of (in)equations
 #'
-#' @section Details:
 #' 
 #' This package offers a basic and consistent interface to a number of
-#' operations on linear systems of (in)equations not available in base R. Except for the projection on
-#' the convex polytope, operations are currently supported for dense matrices
-#' only.
+#' operations on linear systems of (in)equations not available in base R.
+#' Except for the projection on the convex polytope, operations are currently
+#' supported for dense matrices only.
 #'
 #'
 #' The following operations are implemented.

@@ -163,17 +163,48 @@
   
 
 ## implied equations, nonzero coefficients.
-#   x <=  0
-#  -x >=  0
-#   y <=  1
-#  -y <= -1
-A <- matrix(c(1,0, -1,0, 0,1, 0,-1),nrow=4,byrow=TRUE)
-b <- c(0,0,1,-1) 
-L <- compact(A,b,neq=0, nleq=4)  
-expect_equal(L$neq,2)
-expect_equal(L$A, diag(2))
-expect_equal(L$b, c(0,1))
+  #   x <=  0
+  #  -x >=  0
+  #   y <=  1
+  #  -y <= -1
+  A <- matrix(c(1,0, -1,0, 0,1, 0,-1),nrow=4,byrow=TRUE)
+  b <- c(0,0,1,-1) 
+  L <- compact(A,b,neq=0, nleq=4)  
+  expect_equal(L$neq,2)
+  expect_equal(L$A, diag(2))
+  expect_equal(L$b, c(0,1))
+
+## implied equalities, remaining inequation, and remaining strict inequation
+ #  x+z == -2
+ #  x   <=  1
+ # -x   <= -1
+ #  y   <=  8
+ #  z   <   0
+ A <- matrix(c(1,0,1, 1,0, 0, -1,0,0, 0,1,0, 0,0,1), nrow=5,byrow=TRUE)
+ b <- c(-2, 1, -1, 8, 0)
+ L <- compact(A,b, neq=1,nleq=3) 
+ expect_equal(L$neq,2)
+ expect_equal(L$nleq,1)
+ expect_equal(L$A, A[c(1,2,4,5),,drop=FALSE])
+ expect_equal(L$b, b[c(1,2,4,5)])
 
 
+## implicit duplicates
+#   x <=  1
+#  -x <= -1
+# -2x <= -2
+A <- matrix(c(1,-1,-2),nrow=3)
+b <- c(1,-1,-2)
+L <- compact(A,b,neq=0,nleq=3)
+expect_equal(L$neq,1)
+expect_equal(L$nleq,0)
+
+## regression test (<=0.1.5)
+#  x  <= 1
+# -y  <= 1 
+A <- matrix(c(1,0, 0,-1), nrow=2, byrow=TRUE)
+b <- c(1,1)
+L <- compact(A, b, neq=0, nleq=2)
+expect_equal(compact(L$A, L$b,neq=0, nleq=2), L)
 
 

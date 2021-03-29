@@ -1,4 +1,4 @@
-version 0.1.4
+version 0.1.5
  - Fix in 'compact': pairs of inequations were not detected correctly.
 
 version 0.1.3

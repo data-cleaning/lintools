@@ -54,7 +54,7 @@ compact <- function(A, b, x=NULL, neq=nrow(A), nleq=0, eps=1e-8
       , cols_removed=!logical(ncol(A))
     ))
   }
-  
+ 
   Ai <- abs(A) > eps
   
   ops <- rep("<",nrow(A))
@@ -67,7 +67,7 @@ compact <- function(A, b, x=NULL, neq=nrow(A), nleq=0, eps=1e-8
     A <- A[,!cols_removed,drop=FALSE]
     if( !is.null(x) ) x <- x[!cols_removed]
   }
-  
+
   if ( remove_rows ){
     # remove empty rows
     I <- rowSums(Ai) == 0
@@ -126,11 +126,15 @@ compact <- function(A, b, x=NULL, neq=nrow(A), nleq=0, eps=1e-8
     I <- I[ii]
     J <- J[ii]
     # compute implied equations
-    ieqn <- abs( rowSums(Ai[I,,drop=FALSE] + Ai[J,,drop=FALSE]) ) < eps 
+    ieqn <- rowSums( abs(Ai[I,,drop=FALSE] + Ai[J,,drop=FALSE]) ) < eps 
     ieqn <- ieqn & abs(bi[I]+bi[J]) < eps
     if ( any(ieqn) ){
-      keep <-  I[ieqn]
-      throw <- J[ieqn]
+      keep <-  unique(I[ieqn])
+      throw <- unique(J[ieqn])
+      # throw may have entries equal to keep, when three rows are equal.
+      # Example: work out the case with 3 rows, and all are equal.
+      # We get (before unique) keep = (1,1,2), throw = (2,3,3)
+      keep <- setdiff(keep, throw)
       ##
       A <- rbind(
         A[seq_len(neq),,drop=FALSE]            # original equalities
@@ -144,7 +148,8 @@ compact <- function(A, b, x=NULL, neq=nrow(A), nleq=0, eps=1e-8
         , b[ineqs[-c(throw,keep)]] # remaining inequalities
         , b[-seq_len(neq+nleq)]    # strict inequalities
       )
-      neq <- neq + sum(ieqn)
+      
+      neq <- neq + length(keep)
       nleq <- length(ineqs) - length(throw) - length(keep)
     }
   } 
