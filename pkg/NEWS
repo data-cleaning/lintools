@@ -1,5 +1,6 @@
 version 0.1.5
  - Fix in 'compact': pairs of inequations were not detected correctly.
+ - Added 'markdown' to 'Suggests' as requested by CRAN
 
 version 0.1.3
  - Updated uses of .Call to include PACKAGE="lintools" (thanks to Harm Jan Boonstra)

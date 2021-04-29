@@ -87,8 +87,8 @@ eliminate <- function(A, b, neq=nrow(A), nleq=0, variable, H=NULL, h=0, eps=1e-8
   
   eq <- I & seq_len(nrow(A)) <= neq
   
-  upper <- which(!eq & coefs > 0)
-  lower <- which(!eq & coefs < 0)
+  upper <- which(!eq & coefs > eps)
+  lower <- which(!eq & coefs < -eps)
   
   coefs[!eq] <- abs(coefs[!eq])
   
@@ -111,7 +111,7 @@ eliminate <- function(A, b, neq=nrow(A), nleq=0, variable, H=NULL, h=0, eps=1e-8
         , h = h
     ))
   } 
-  
+  print(var)
   if ( is.null(H) ){
     H <- matrix(FALSE,nrow=nrow(A),ncol=nrow(A))
     diag(H) <- TRUE 
@@ -129,14 +129,17 @@ eliminate <- function(A, b, neq=nrow(A), nleq=0, variable, H=NULL, h=0, eps=1e-8
   ml <- Ab[I1,,drop=FALSE] + Ab[I2,,drop=FALSE]
   ol <- ifelse(ops[I1] != "<", ops[I2], ops[I1])
   dl <- H[I1,,drop=FALSE] | H[I2,,drop=FALSE]
-  
+print(ml) 
+
+ 
   # eqs ==> ineqs w/coef>0
   I1 <- rep(eq,each=length(upper))
   I2 <- rep(upper, times=length(eq))
   mu <- Ab[I2,,drop=FALSE] - Ab[I1,,drop=FALSE]
   ou <- ops[I2]
   du <- H[I1,,drop=FALSE] | H[I2,,drop=FALSE]
-  
+print(mu) 
+
   # eqs ==> eqs
   me <- Ab[logical(0),,drop=FALSE]
   de <- H[logical(0),,drop=FALSE]
@@ -145,11 +148,21 @@ eliminate <- function(A, b, neq=nrow(A), nleq=0, variable, H=NULL, h=0, eps=1e-8
     de <- t(t(H[eq[-1],,drop=FALSE]) | H[eq[1],])       
   } 
   oe <- rep("==",nrow(me))
-  
+print(me)
+
   Ab <- rbind(ml,mu,me,Ab[!I,,drop=FALSE])
   H <- rbind(dl,du,de,H[!I,,drop=FALSE])
   o <- c(ol,ou,oe,ops[!I])
   redundant <- rowSums(H) > h + 1 #| isObviouslyRedundant.matrix(E=m, operators=o)
+
+#
+.s <- apply(Ab[,-ncol(Ab),drop=FALSE],1,function(x) all(abs(x)<eps))
+.t <- Ab[,ncol(Ab)] < 0
+if (any(.s & .t)){ 
+  print("tjaaa-hooo!")
+  print(redundant)
+}
+
   
   Ab <- Ab[!redundant,,drop=FALSE]
   H <- H[!redundant,,drop=FALSE]
