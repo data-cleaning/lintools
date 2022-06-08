@@ -208,3 +208,9 @@ L <- compact(A, b, neq=0, nleq=2)
 expect_equal(compact(L$A, L$b,neq=0, nleq=2), L)
 
 
+
+
+
+
+
+

@@ -10,6 +10,8 @@
 #' @param variables \code{[numeric|logical|character]} vector of column indices in \code{A}
 #' @param values \code{[numeric]} vecor of values to substitute.
 #' @param remove_columns \code{[logical]} Remove spurious columns when substituting?
+#' @param eps \code{[numeric]} scalar. Any value with absolute value below \code{eps} will be 
+#'        interpreted as zero.
 #'
 #' @return A \code{list} with the following components:
 #' 
@@ -20,12 +22,12 @@
 #'
 #'
 #' @export
-subst_value <- function(A, b, variables, values, remove_columns=FALSE){
+subst_value <- function(A, b, variables, values, remove_columns=FALSE, eps=1e-8){
   check_sys(A=A, b=b)
   if ( is.character(variables) ){
     variables <- match(variables,colnames(A))
   }
-
+  values[abs(values)<eps] <- 0
   b <- as.vector(b - A[,variables,drop=FALSE] %*% values)
   if (remove_columns){
     A <- A[,-variables,drop=FALSE]

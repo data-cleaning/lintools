@@ -12,10 +12,10 @@ Description: Variable elimination (Gaussian elimination, Fourier-Motzkin elimina
     simplify systems by removing spurious columns and rows and collapse implied equalities, 
     test if a matrix is totally unimodular, compute variable ranges implied by linear
     (in)equalities.
-Version: 0.1.5
+Version: 0.1.5.1
 URL: https://github.com/data-cleaning/lintools
 BugReports: https://github.com/data-cleaning/lintools/issues
 Imports: utils
 Suggests: tinytest, knitr, rmarkdown
 VignetteBuilder: knitr
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.0
