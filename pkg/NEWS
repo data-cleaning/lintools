@@ -1,3 +1,13 @@
+version 0.1.7
+- fixed bug in is_totally_unimodular() (thanks to Divya Padmanabhan
+  for the bug report)
+- replaced occurrences of sprintf() with snprintf() as of new
+  CRAN policy (thanks to Brian Ripley for the head's up)
+
+version 0.1.6
+- subst_values() gains 'eps' argument and by default substitutes
+  zero for all values x with |x|<=1e-8.
+
 version 0.1.5
  - Fix in 'compact': pairs of inequations were not detected correctly.
  - Added 'rmarkdown' to 'Suggests' as requested by CRAN

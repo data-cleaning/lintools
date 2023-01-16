@@ -32,7 +32,7 @@ is_totally_unimodular <- function(A) {
     
     # A matrix with elements not in {-1,0,1} cannot be totally unimodular.
     if ( !all(A %in% c(-1,0,1)) ){
-        value <- FALSE
+        return(FALSE)
     }
 
     # After reduction, A has no rows or columns containing less than 2 elements.

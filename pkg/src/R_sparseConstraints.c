@@ -23,16 +23,17 @@ static void R_print_sc_row(SparseConstraints *x, int i, SEXP names){
 
    // as of R2.13 10000 is the max symbol size. 
    // It is defined in src/includes/Defn.h, as MAXIDSIZE
-   char varname[10000];
+   int maxn = 10000;
+   char varname[maxn];
 
    int hasnames = length(names) != 0;
 
    Rprintf("%3d : ",i+1);
    for (int j=0; j < n; j++){
       if ( hasnames ){ // get varname from 'names'
-         sprintf( varname, "%s",CHAR(STRING_ELT(names,x->index[i][j])) );
+         snprintf( varname,maxn, "%s",CHAR(STRING_ELT(names,x->index[i][j])) );
       } else {  // make surrogate varnames
-         sprintf( varname, "X%d",x->index[i][j] );
+         snprintf( varname, maxn, "X%d",x->index[i][j] );
       }
          
       Rprintf("%g*%s + ", x->A[i][j], varname );
@@ -40,9 +41,9 @@ static void R_print_sc_row(SparseConstraints *x, int i, SEXP names){
    // prevent -0 printing
    b = b == 0.0 ? 0.0 : b;    
    if ( hasnames ){ // get varname from 'names'
-      sprintf( varname, "%s",CHAR(STRING_ELT(names,x->index[i][n])) );
+      snprintf( varname, maxn, "%s",CHAR(STRING_ELT(names,x->index[i][n])) );
    } else {  // make surrogate varnames
-     sprintf( varname, "X%d",x->index[i][n] );
+     snprintf( varname, maxn, "X%d",x->index[i][n] );
    }
       Rprintf("%g*%s %.1s %g\n",x->A[i][n], varname, op , b);
 
