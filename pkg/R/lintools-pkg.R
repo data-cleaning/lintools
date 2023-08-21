@@ -27,6 +27,7 @@
 #' @name lintools
 #' @importFrom utils combn
 #' @docType package
+#' @aliases lintools-package
 #' 
 {}
 

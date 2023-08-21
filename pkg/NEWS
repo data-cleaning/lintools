@@ -1,3 +1,6 @@
+version 0.1.8
+- Fixed Rd bug (thanks to Kurt Hornik for pointing out the changes)
+
 version 0.1.7
 - fixed bug in is_totally_unimodular() (thanks to Divya Padmanabhan
   for the bug report)
