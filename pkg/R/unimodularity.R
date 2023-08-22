@@ -116,7 +116,7 @@ hellerTompkins <- function(A){
         for ( i in 1:ncol(I)){
             M1 <- A[I[ , i], ,drop=FALSE]
             M2 <- A[-I[ , i], ,drop=FALSE]
-            if ( !any(abs(colSums(M1)) == 2) && !any(abs(colSums(M2)) == 2) ){
+            if ( !any(abs(rowSums(M1)) == 2) && !any(abs(rowSums(M2)) == 2) ){
                 return(TRUE)
             }
         }
