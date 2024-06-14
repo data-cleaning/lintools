@@ -1,7 +1,6 @@
-[![Build Status](https://travis-ci.org/data-cleaning/lintools.svg?branch=master)](https://travis-ci.org/data-cleaning/lintools)
-[![Coverage Status](https://coveralls.io/repos/data-cleaning/lintools/badge.svg)](https://coveralls.io/r/data-cleaning/lintools) 
 [![CRAN](http://www.r-pkg.org/badges/version/lintools)](http://cran.r-project.org/web/packages/lintools/NEWS)
 [![Downloads](http://cranlogs.r-pkg.org/badges/lintools)](http://cran.r-project.org/package=lintools/) 
+[![status](https://tinyverse.netlify.app/badge/lintools)](https://CRAN.R-project.org/package=lintools)
 
 
 ## lintools
